@@ -1,3 +1,6 @@
+const API_KEY = process.env.API_KEY;
+const BASE_KEY = process.env.BASE_KEY;
+const token = process.env.token;
 
 
 var Conversation = require('hubot-conversation');
