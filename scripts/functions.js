@@ -91,26 +91,6 @@ const { JSDOM } = jsdom;
           });
     });
 
-
-    /*return base('Companies').select({
-            maxRecords: 1,
-            view: "Everything",
-            filterByFormula: filterform
-        }).firstPage(function (err, records) {
-
-          if (err){
-            msg.reply("rejected");
-            return false;
-          }
-          records.forEach(function(record) {
-              msg.reply("here");
-              return true;
-          });
-          return companySeenBefore;
-          }).then(function(bool){
-            msg.reply("here2");
-            return bool;
-          });*/
   }
 
   function getCompanyNameFromMsg(msg){
@@ -122,6 +102,18 @@ const { JSDOM } = jsdom;
     // capitalize company name - yea, Coffeescript is stoopid
     company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
     return company;
+  }
+
+  function putDeal(companyUID = "", contact = "kane@root.vc",status = "Lead"){
+    base('Deal Pipeline').create({
+        "Status": status,
+        "Company": [
+           companyUID
+        ],
+        "Owner": contact
+      }, function(err, record){
+        return function (err,record);
+      }
   }
 
 
