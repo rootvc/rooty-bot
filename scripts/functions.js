@@ -136,6 +136,37 @@ var founderRecords = [];
           });
   }
 
+  function updateAirtable(dealRecord, companyUID, company, founderRecords,
+                            contact, notes, source, link){
+      base('Companies').replace(companyUID, {
+        "Company Name": company,
+        "Tags": [
+          "Pipeline"
+        ],
+        "Founders": founderRecords
+      },
+        function(err, record) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+
+          //update the deal to link the company again now that we have called replace function on the company in airtable
+          // else it will unlink
+          base('Deal Pipeline').replace(dealRecord, {
+              "Status": "Lead",
+              "Company": [
+                 companyUID
+              ],
+              "Notes": notes,
+              "Owner": contact,
+              "Source": source,
+              "Pitch Deck": [{"url": link}]
+            });
+          });
+  }
+
+module.exports.updateAirtable = updateAirtable;
 module.exports.getFounderRecords = getFounderRecords;
 module.exports.putCompany = putCompany;
 module.exports.updateDeal = updateDeal;

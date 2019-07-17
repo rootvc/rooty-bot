@@ -80,7 +80,6 @@ module.exports = function (robot) {
       //Create company record for the logged company
       functions.putCompany(company).then(function(record) {
         companyUID = record.getId();
-        console.log(companyUID);
         //create a Lead in Deal pipeline associated with the company
         /*base('Deal Pipeline').create({
             "Status": "Lead",
@@ -95,6 +94,8 @@ module.exports = function (robot) {
         //start the dialog that speaks to the user
         var dialog = switchBoard.startDialog(msg, 50000);
         dialog.dialogTimeout = function(message){
+          functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
+                                  contact, notes, source, link);
           message.reply("Timed out. No need to enter any more data.");
         }
 
@@ -117,7 +118,7 @@ module.exports = function (robot) {
           if ((founders) == ("e") || (founders.substring(0,3) === 'log')){
               msg.reply("Exited logging for " + company);
               founders = "";
-              updateAirtable(dealRecord, companyUID, company, founderRecords,
+              functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                       contact, notes, source, link);
               return;
           }
@@ -141,10 +142,8 @@ module.exports = function (robot) {
 
             //calls function that posts the founders to Airtable and then links their records to the Deal record
             functions.postFounderstoAirtable(founderNames).then(function (result){
-              console.log(functions.getFounderRecords());
               founderRecords = functions.getFounderRecords();
-              console.log( "updating: " + dealRecord +" " + companyUID + " " + founderRecords);
-              updateAirtable(dealRecord, companyUID, company, founderRecords,
+              functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                       contact, notes, source, link);
                   /*
                   base('Companies').replace(companyUID, {
@@ -197,7 +196,7 @@ module.exports = function (robot) {
           if ((notes) == ("e") || (notes.substring(0,3) === 'log')) {
             msg.reply("Exited logging for " + company);
             notes = "";
-            updateAirtable(dealRecord, companyUID, company, founderRecords,
+            functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                     contact, notes, source, link);
             return;
           }
@@ -240,6 +239,8 @@ module.exports = function (robot) {
           //exit and skip options
           if ((source) == ("e") || (source.substring(0,3) === 'log')){
             msg.reply("Exited logging for " + company);
+            functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
+                                    contact, notes, source, link);
             source  = "";
             return;
           }
@@ -285,13 +286,13 @@ module.exports = function (robot) {
           //exit and skip options
           if ((pitchdeck) == ("e") || (pitchdeck.substring(0,3) === 'log')){
             msg.reply("Done logging for " + company + "!");
-            updateAirtable(dealRecord, companyUID, company, founderRecords,
+            functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                     contact, notes, source, link);
             return;
           }
           if (pitchdeck == ("s")){
             msg.reply("Done logging for " + company + "!");
-            updateAirtable(dealRecord, companyUID, company, founderRecords,
+            functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                     contact, notes, source, link);
             return;
           }
@@ -340,9 +341,7 @@ module.exports = function (robot) {
               });
             })();
           }
-          console.log( "updating: " + dealRecord +" " + companyUID + " " + founderRecords);
-
-          updateAirtable(dealRecord, companyUID, company, founderRecords,
+          functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                   contact, notes, source, link);
           msg.reply("Done logging for " + company + "!");
 
@@ -357,35 +356,9 @@ module.exports = function (robot) {
       });
       });
     }
-    function updateAirtable(dealRecord, companyUID, company, founderRecords,
-                              contact, notes, source, link){
-        base('Companies').replace(companyUID, {
-          "Company Name": company,
-          "Tags": [
-            "Pipeline"
-          ],
-          "Founders": founderRecords
-        },
-          function(err, record) {
-            if (err) {
-              console.error(err);
-              return;
-            }
 
-            //update the deal to link the company again now that we have called replace function on the company in airtable
-            // else it will unlink
-            base('Deal Pipeline').replace(dealRecord, {
-                "Status": "Lead",
-                "Company": [
-                   companyUID
-                ],
-                "Notes": notes,
-                "Owner": contact,
-                "Source": source,
-                "Pitch Deck": [{"url": link}]
-              });
-            });
-    }
+
+
     //comment2
   });
   //comment
