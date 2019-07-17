@@ -56,6 +56,7 @@ module.exports = function (robot) {
     robot.respond(/search (.*)/i, function(msg){
         company = functions.getCompanyNameFromMsg(msg);
         functions.searchCompanyInAirtable(company).then(function(response){
+          console.log("response: " + response);
             if (response){
                 msg.reply(company + " already exists in Airtable.");
             }

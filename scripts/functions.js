@@ -93,7 +93,9 @@ function checkCompanyInAirtable (company){
 }
 
 function searchCompanyInAirtable (company){
-    const filterform = "OR(FIND(\'" + company + "\',\{Company Name\}))," +"(FIND(LOWER(\'" + company + "\'),\{Company Name\})))";
+  //const filterform = "OR(FIND(\'" + company + "\',\{Company Name\}))," +"(FIND(LOWER(\'" + company + "\'),\{Company Name\})))";
+  const filterform = "FIND(\'" + company + "\',\{Company Name\}))";
+
     return new Promise(function(resolve, reject) {
         return base('Companies').select({
                 view: "Everything",
@@ -105,9 +107,8 @@ function searchCompanyInAirtable (company){
               }
               records.forEach(function(record) {
                   console.log(record);
-                  resolve(true);
+                  resolve(record);
               });
-              resolve(false);
             });
     });
 
