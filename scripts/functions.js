@@ -92,6 +92,26 @@ function checkCompanyInAirtable (company){
 
 }
 
+function searchCompanyInAirtable (company){
+    const filterform = "(FIND(\'" + company + "\',\{Company Name\}))";
+    return new Promise(function(resolve, reject) {
+        return base('Companies').select({
+                view: "Everything",
+                filterByFormula: filterform
+            }).firstPage(function (err, records) {
+              if (err){
+                  reject(err);
+              }
+              records.forEach(function(record) {
+                  console.log(record);
+                  resolve(true);
+              });
+              resolve(false);
+            });
+    });
+
+}
+
 //parses input from hubot for company name
 function getCompanyNameFromMsg(msg){
     let company = msg.match[1].replace(/^\s+|\s+$/g, "");
@@ -193,6 +213,7 @@ module.exports.putCompany = putCompany;
 module.exports.updateDeal = updateDeal;
 module.exports.putDeal = putDeal;
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
+module.exports.searchCompanyInAirtable = searchCompanyInAirtable;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
 module.exports.response = response;
 module.exports.thanks = thanks;

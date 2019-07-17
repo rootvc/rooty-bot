@@ -53,6 +53,18 @@ module.exports = function (robot) {
         });
     });
 
+    robot.respond(/search (.*)/i, function(msg){
+        company = functions.getCompanyNameFromMsg(msg);
+        functions.searchCompanyInAirtable(company).then(function(response){
+            if (response){
+                msg.reply(company + " already exists in Airtable.");
+            }
+            else{
+                msg.reply(company + " does not exist in Airtable.");
+            }
+        });
+    });
+
 
     // Triggered when rooty log _
     robot.respond(/log (.*)/i, function(msg) {
