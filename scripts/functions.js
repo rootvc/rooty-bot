@@ -17,44 +17,50 @@ const fetch = require("node-fetch");
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-// for rootys thank you function
-const response = [
-      "you're welcome",
-      "no problem",
-      "not a problem",
-      "no problem at all",
-      "don’t mention it",
-      "it’s no bother",
-      "it’s my pleasure",
-      "my pleasure",
-      "it’s nothing",
-      "think nothing of it",
-      "no, no. thank you!",
-      "sure thing"
-    ];
-    
-const thanks = new RegExp("thank(s| you) rooty", "i");
 
-//replaceAll function for strings
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
+class Functions {
+  // for rootys thank you function
+  const response = [
+        "you're welcome",
+        "no problem",
+        "not a problem",
+        "no problem at all",
+        "don’t mention it",
+        "it’s no bother",
+        "it’s my pleasure",
+        "my pleasure",
+        "it’s nothing",
+        "think nothing of it",
+        "no, no. thank you!",
+        "sure thing"
+      ];
+
+  const thanks = new RegExp("thank(s| you) rooty", "i");
+
+  //replaceAll function for strings
+  function replaceAll(str, find, replace) {
+      return str.replace(new RegExp(find, 'g'), replace);
+  }
+
+  // Creates founder object in airtable
+  let postFoundertoAirtable  = (founder) => {
+
+      return new Promise (
+        (resolve,reject) => {
+
+          base('People').create(
+          {
+                "Name": founder,
+          }, function(err, record) {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
+                resolve(record.getId());
+              });
+        });
+  };
 }
 
-// Creates founder object in airtable
-let postFoundertoAirtable  = (founder) => {
-
-    return new Promise (
-      (resolve,reject) => {
-
-        base('People').create(
-        {
-              "Name": founder,
-        }, function(err, record) {
-              if (err) {
-                console.error(err);
-                return;
-              }
-              resolve(record.getId());
-            });
-      });
-};
+const instance = new Functions();
+export default instance;
