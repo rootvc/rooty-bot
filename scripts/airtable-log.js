@@ -29,7 +29,7 @@ module.exports = function (robot) {
      msg.send(msg.random(functions.response));
   });
 
-  robot.hear(thanks, msg => msg.send(msg.random(functions.response)));
+  robot.hear(functions.thanks, msg => msg.send(msg.random(functions.response)));
 
   robot.respond(/help/i, function (msg){
     msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
@@ -87,7 +87,7 @@ module.exports = function (robot) {
 
         // remove http:// in front in case slack autorenders a URL
         company = company.replace(/.*?:\/\//g, "");
-        company = replaceAll(company, '\'', '');
+        company = functions.replaceAll(company, '\'', '');
         // capitalize company name - yea, Coffeescript is stoopid
         company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
         var companySeenBefore = false;
@@ -179,8 +179,8 @@ module.exports = function (robot) {
 
                               //parses the input to separate by commas and " and"'s
                               founders = (founders.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
-                              founders = replaceAll(founders, " And", ",");
-                              founders = replaceAll(founders, ", ", ",");
+                              founders = functions.replaceAll(founders, " And", ",");
+                              founders = functions.replaceAll(founders, ", ", ",");
                               founders = founders.replace(/[,]+/g, ",").trim();
 
                               //list of founder names
