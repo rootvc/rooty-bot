@@ -46,9 +46,9 @@ var founderRecords = [];
     }, Promise.resolve());
   }
 
-  function getFounderRecords()(
+  function getFounderRecords(){
     return founderRecords;
-  )
+  }
 
   // Creates founder object in airtable
   let postFoundertoAirtable  = (founder) => {
