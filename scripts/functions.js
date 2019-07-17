@@ -115,7 +115,7 @@ const { JSDOM } = jsdom;
   }
 
   function updateDeal(dealRecord = "", companyUID = "", contact = "kane@root.vc",
-                      notes = "", source = "", pitchdeck = "" status = "Lead"){
+                      notes = "", source = "", pitchdeck = "", status = "Lead"){
     return base('Deal Pipeline').replace(dealRecord, {
         "Status": "Lead",
         "Company": [
