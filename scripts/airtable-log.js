@@ -16,7 +16,7 @@ const web = new WebClient(token);
 const fetch = require("node-fetch");
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-import functions from './functions';
+const functions = './functions';
 
 
 module.exports = function (robot) {
