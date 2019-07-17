@@ -141,6 +141,7 @@ module.exports = function (robot) {
 
             //calls function that posts the founders to Airtable and then links their records to the Deal record
             functions.postFounderstoAirtable(founderNames).then(function (result){
+              console.log(result);
               founderRecords = result;
               console.log( "updating: " + dealRecord +" " + companyUID + " " + founderRecords);
               updateAirtable(dealRecord, companyUID, company, founderRecords,

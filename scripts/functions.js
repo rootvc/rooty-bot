@@ -44,7 +44,7 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
           founderRecords.push(result);
         });
       });
-    }, Promise.resolve(founderRecords));
+    });;
   }
 
   // Creates founder object in airtable
