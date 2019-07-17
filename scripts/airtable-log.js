@@ -46,6 +46,7 @@ module.exports = function (robot) {
     robot.respond(/check (.*)/i, function(msg){
       msg.reply("seen this");
     functions.checkCompanyInAirtable(msg).then(function(response){
+      console.log(response);
       if (response){
         msg.reply(company + " already exists in Airtable.");
       }
