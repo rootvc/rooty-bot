@@ -44,7 +44,6 @@ module.exports = function (robot) {
     robot.respond(/check (.*)/i, function(msg){
       company = functions.getCompanyNameFromMsg(msg);
       functions.checkCompanyInAirtable(company).then(function(response){
-      console.log(response);
       if (response){
         msg.reply(company + " already exists in Airtable.");
       }
@@ -58,7 +57,7 @@ module.exports = function (robot) {
   // Triggered when rooty log _
   robot.respond(/log (.*)/i, function(msg) {
     var dealRecord = "";
-    companyUID = "";
+    var companyUID = "";
     var founderRecords =[];
     var notes = "";
     var source = "";
@@ -141,7 +140,8 @@ module.exports = function (robot) {
             var founderNames = founders.split(",");
 
             //calls function that posts the founders to Airtable and then links their records to the Deal record
-            functions.postFounderstoAirtable(founderNames).then(function (){
+            functions.postFounderstoAirtable(founderNames).then(function (result){
+              founderRecords = result;
               updateAirtable(dealRecord, companyUID, company, founderRecords,
                                       contact, notes, source, link);
                   /*

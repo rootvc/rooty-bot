@@ -37,13 +37,14 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
 
   //posts a list of strings to airtable as people objects and adds their record ID's to the array
   function postFounderstoAirtable (founderNames){
+    var founderRecords = [];
     return founderNames.reduce(function(promise, founder){
       return promise.then(function(){
         return postFoundertoAirtable(founder).then(function(result){
           founderRecords.push(result);
         });
       });
-    }, Promise.resolve());
+    }, Promise.resolve(founderRecords));
   }
 
   // Creates founder object in airtable
