@@ -114,6 +114,22 @@ const { JSDOM } = jsdom;
       });
   }
 
+  function updateDeal(dealRecord = "", companyUID = "", contact = "kane@root.vc",
+                      notes = "", source = "", pitchdeck = "" status = "Lead"){
+    return base('Deal Pipeline').replace(dealRecord, {
+        "Status": "Lead",
+        "Company": [
+           companyUID
+        ],
+        "Notes": notes,
+        "Owner": contact,
+        "Source": source,
+        "Pitch Deck": [{"url": pitchdeck}]
+    });
+
+  }
+
+
   function putCompany(company = ""){
     return base('Companies').create({
           "Company Name": company,
@@ -124,6 +140,7 @@ const { JSDOM } = jsdom;
   }
 
 module.exports.putCompany = putCompany;
+module.exports.updateDeal = updateDeal;
 module.exports.putDeal = putDeal;
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;

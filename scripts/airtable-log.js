@@ -113,12 +113,13 @@ module.exports = function (robot) {
                 }
 
                   //exit and skip options
-                  if ((founders) == ("e")){
-                    msg.reply("Exited - sounds good!")
+                  if ((founders) == ("e") || (founders.substring(0,3) === 'log')){
+                    msg.reply("Exited logging for " + company);
                     founders = "";
                     return;
                   }
                   if ((founders) == ("s")){
+                    msg.reply("Skipped logging founder info.")
                     founders = "";
                   }
 
@@ -185,18 +186,21 @@ module.exports = function (robot) {
                       }
 
                       //exit and skip options
-                      if ((notes) == ("e")){
-                        msg.reply("Exited - sounds good!");
+                      if ((notes) == ("e") || (notes.substring(0,3) === 'log')) {
+                        msg.reply("Exited logging for " + company);
                         notes = "";
                         return;
                       }
                       if ((notes) == ("s")){
+                        msg.reply("Skipped logging notes");
                         notes = "";
                       }
 
                       //not exit or skip so we update airtable with the notes
                       else{
-                        base('Deal Pipeline').replace(dealRecord, {
+
+                        //functions.updateDeal(dealRecord, companyUID, contact, notes).then(function(record){
+                        /*base('Deal Pipeline').replace(dealRecord, {
                         "Status": "Lead",
                         "Company": [
                            companyUID
@@ -210,7 +214,7 @@ module.exports = function (robot) {
                             return;
                             console.log('Failed here: ' + company);
                           }
-                    });
+                    });*/
                   }
 
                         //prompt user to enter source
@@ -224,18 +228,20 @@ module.exports = function (robot) {
                           }
 
                           //exit and skip options
-                          if ((source) == ("e")){
-                            msg.reply("Exited - sounds good!");
+                          if ((source) == ("e") || (source.substring(0,3) === 'log')){
+                            msg.reply("Exited logging for " + company);
                             source  = "";
                             return;
                           }
                           if ((source) == ("s")){
+                            msg.reply("Skipped logging source");
                             source  = "";
                           }
 
                           //not exit or skip so we enter the source into airtable
                           else{
-                            base('Deal Pipeline').replace(dealRecord, {
+
+                            /*base('Deal Pipeline').replace(dealRecord, {
                             "Status": "Lead",
                             "Company": [
                                companyUID
@@ -250,7 +256,7 @@ module.exports = function (robot) {
                                 return;
                                 console.log('Failed here: ' + company);
                               }
-                        });
+                        });*/
                       }
                           //prompt user to enter a pitch deck
                           msg.reply("Attach a pitch deck! :books:");
@@ -265,12 +271,12 @@ module.exports = function (robot) {
                             }
 
                             //exit and skip options
-                            if ((pitchdeck) == ("e")){
-                              msg.reply("Exited - sounds good!");
+                            if ((pitchdeck) == ("e") || (pitchdeck.substring(0,3) === 'log')){
+                              msg.reply("Done logging for " + company + "!");
                               return;
                             }
                             if (pitchdeck == ("s")){
-                              msg.reply("Sounds good!");
+                              msg.reply("Done logging for " + company + "!");
                               return;
                             }
 
@@ -293,7 +299,7 @@ module.exports = function (robot) {
                                     const dom = new JSDOM(rawHtml);
                                     var link = dom.window.document.querySelector("a").href;
                                     //update airtable record with the pitch deck
-                                    base('Deal Pipeline').replace(dealRecord, {
+                                    /*base('Deal Pipeline').replace(dealRecord, {
                                     "Status": "Lead",
                                     "Company": [
                                        companyUID
@@ -302,13 +308,14 @@ module.exports = function (robot) {
                                     "Owner": contact,
                                     "Source": source,
                                     "Pitch Deck": [{"url": link}]
-                                    },
+                                  },
                                       function(err, record) {
                                         if (err) {
                                           console.error(err);
                                           return;
                                           console.log('Failed here: ' + company);
-                                        }
+                                        }*/
+                                        functions.updateDeal(dealRecord, companyUID, contact, notes, source, link).then(function(record){
                                         (async () => {
                                           //revoke public access to the attachement url now that it has been posted to airtable
                                           makePrivate = await(web.files.revokePublicURL({token: token,file: id}));
@@ -317,7 +324,7 @@ module.exports = function (robot) {
                                 });
                             })();
                         }
-                        msg.reply("Sounds good!")
+                        msg.reply("Done logging for " + company + "!");
                       });
 
                       });
