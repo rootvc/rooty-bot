@@ -116,7 +116,7 @@ const { JSDOM } = jsdom;
       }
   }
 
-
+module.exports.putDeal = putDeal;
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
 module.exports.response = response;
