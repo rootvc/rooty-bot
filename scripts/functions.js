@@ -76,22 +76,31 @@ const { JSDOM } = jsdom;
     var company = getCompanyNameFromMsg(msg);
     var companySeenBefore = false;
     const filterform = "\{Company Name\}= \'"+company +'\'';
-    /*return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
+      return base('Companies').select({
+              maxRecords: 1,
+              view: "Everything",
+              filterByFormula: filterform
+          }).firstPage(function (err, records) {
+            if (err){
+              reject(err);
+            }
+            records.forEach(function(record) {
+                resolve(true);
+            });
+            resolve(false);
+          });
+    });
 
 
-
-    });*/
-
-
-    return base('Companies').select({
+    /*return base('Companies').select({
             maxRecords: 1,
             view: "Everything",
             filterByFormula: filterform
         }).firstPage(function (err, records) {
 
-          msg.reply("loaded page");
           if (err){
-           msg.reply("rejected");
+            msg.reply("rejected");
             return false;
           }
           records.forEach(function(record) {
@@ -102,7 +111,7 @@ const { JSDOM } = jsdom;
           }).then(function(bool){
             msg.reply("here2");
             return bool;
-          });
+          });*/
   }
 
   function getCompanyNameFromMsg(msg){
