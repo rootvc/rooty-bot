@@ -76,7 +76,7 @@ const { JSDOM } = jsdom;
     var company = getCompanyNameFromMsg(msg);
     var companySeenBefore = false;
     const filterform = "\{Company Name\}= \'"+company +'\'';
-    base('Companies').select({
+    return base('Companies').select({
             maxRecords: 1,
             view: "Everything",
             filterByFormula: filterform
@@ -86,7 +86,7 @@ const { JSDOM } = jsdom;
             });
           }).then(function(bool){
             return companySeenBefore;
-          });
+          }).catch((err) => {return false});
   }
 
   function getCompanyNameFromMsg(msg){
