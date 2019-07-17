@@ -36,7 +36,7 @@ module.exports = function (robot) {
               "I can be found at https://github.com/rootvc/rooty-bot/blob/master/scripts/airtable-log.js \n" +
               "To log a company, say \"log _ \". \n" +
                 "At any point in logging a company, you can enter s to skip, or e to exit \n" +
-            "To check if a company has been logged, say \"check _\" \n +"
+            "To check if a company has been logged, say \"check _\" \n " +
              "These are some other things I can do:");
   });
 
@@ -47,7 +47,7 @@ module.exports = function (robot) {
     let company = msg.match[1].replace(/^\s+|\s+$/g, "");
     // remove http:// in front in case slack autorenders a URL
     company = company.replace(/.*?:\/\//g, "");
-    company = replaceAll(company, '\'', '');
+    company = functions.replaceAll(company, '\'', '');
     // capitalize company name - yea, Coffeescript is stoopid
     company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
     var companySeenBefore = false;
@@ -177,17 +177,6 @@ module.exports = function (robot) {
                               //create a list of founder "record ID"'s in Airtable so that we can link Deal records to these founders
                               var founderRecords =[];
 
-                              //posts a list of strings to airtable as people objects and adds their record ID's to the array
-                              function postFounderstoAirtable (founderNames){
-                                return founderNames.reduce(function(promise, founder){
-                                  return promise.then(function(){
-                                    return postFoundertoAirtable(founder).then(function(result){
-                                      founderRecords.push(result);
-                                    });
-                                  });
-                                }, Promise.resolve());
-                              }
-
                               //parses the input to separate by commas and " and"'s
                               founders = (founders.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
                               founders = replaceAll(founders, " And", ",");
@@ -198,7 +187,7 @@ module.exports = function (robot) {
                               var founderNames = founders.split(",");
 
                               //calls function that posts the founders to Airtable and then links their records to the Deal record
-                              postFounderstoAirtable(founderNames).then(function (){
+                              functions.postFounderstoAirtable(founderNames).then(function (){
                                     base('Companies').replace(companyUID, {
                                       "Company Name": company,
                                       "Tags": [

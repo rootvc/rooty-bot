@@ -42,6 +42,17 @@ class Functions {
       return str.replace(new RegExp(find, 'g'), replace);
   }
 
+  //posts a list of strings to airtable as people objects and adds their record ID's to the array
+  function postFounderstoAirtable (founderNames){
+    return founderNames.reduce(function(promise, founder){
+      return promise.then(function(){
+        return postFoundertoAirtable(founder).then(function(result){
+          founderRecords.push(result);
+        });
+      });
+    }, Promise.resolve());
+  }
+  
   // Creates founder object in airtable
   let postFoundertoAirtable  = (founder) => {
 
