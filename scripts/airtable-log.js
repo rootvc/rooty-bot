@@ -16,51 +16,7 @@ const web = new WebClient(token);
 const fetch = require("node-fetch");
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
-
-
-
-// for rootys thank you function
-const response = [
-      "you're welcome",
-      "no problem",
-      "not a problem",
-      "no problem at all",
-      "don’t mention it",
-      "it’s no bother",
-      "it’s my pleasure",
-      "my pleasure",
-      "it’s nothing",
-      "think nothing of it",
-      "no, no. thank you!",
-      "sure thing"
-    ];
-  const thanks = new RegExp("thank(s| you) rooty", "i");
-
-
-//replaceAll function for strings
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
-
-// Creates founder object in airtable
-let postFoundertoAirtable  = (founder) => {
-
-    return new Promise (
-      (resolve,reject) => {
-
-        base('People').create(
-        {
-              "Name": founder,
-        }, function(err, record) {
-              if (err) {
-                console.error(err);
-                return;
-              }
-              resolve(record.getId());
-            });
-      });
-};
-
+import functions from './functions';
 
 
 module.exports = function (robot) {
@@ -70,10 +26,10 @@ module.exports = function (robot) {
 
   //rooty responds when thanked
   robot.respond(/thank(s| you)/i, function (msg){
-     msg.send(msg.random(response));
+     msg.send(msg.random(functions.response));
   });
 
-  robot.hear(thanks, msg => msg.send(msg.random(response)));
+  robot.hear(thanks, msg => msg.send(msg.random(functions.response)));
 
   robot.respond(/help/i, function (msg){
     msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
@@ -208,7 +164,7 @@ module.exports = function (robot) {
 
                             //exit and skip options
                             if ((founders) == ("e")){
-                              msg.reply("Sounds good!")
+                              msg.reply("Exited - sounds good!")
                               founders = "";
                               return;
                             }
@@ -291,7 +247,7 @@ module.exports = function (robot) {
 
                                 //exit and skip options
                                 if ((notes) == ("e")){
-                                  msg.reply("Sounds good!");
+                                  msg.reply("Exited - sounds good!");
                                   notes = "";
                                   return;
                                 }
@@ -330,7 +286,7 @@ module.exports = function (robot) {
 
                                     //exit and skip options
                                     if ((source) == ("e")){
-                                      msg.reply("Sounds good!");
+                                      msg.reply("Exited - sounds good!");
                                       source  = "";
                                       return;
                                     }
@@ -371,7 +327,7 @@ module.exports = function (robot) {
 
                                       //exit and skip options
                                       if ((pitchdeck) == ("e")){
-                                        msg.reply("Sounds good!");
+                                        msg.reply("Exited - sounds good!");
                                         return;
                                       }
                                       if (pitchdeck == ("s")){
@@ -381,7 +337,6 @@ module.exports = function (robot) {
 
                                       //if attachment upload, upload to airtable
                                       else if (msg5.message.rawMessage.upload){
-
                                         pitchdeck = "";
                                         //get the ID of the slack file for the API call to slack
                                         var id = msg5.message.rawMessage.files[0].id;
