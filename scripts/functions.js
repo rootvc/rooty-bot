@@ -18,7 +18,6 @@ var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 
-class Functions {
   // for rootys thank you function
   const response = [
         "you're welcome",
@@ -52,7 +51,7 @@ class Functions {
       });
     }, Promise.resolve());
   }
-  
+
   // Creates founder object in airtable
   let postFoundertoAirtable  = (founder) => {
 
@@ -71,7 +70,7 @@ class Functions {
               });
         });
   };
-}
+
 
 const instance = new Functions();
 export default instance;
