@@ -17,6 +17,7 @@ const fetch = require("node-fetch");
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
+module.exports = {
 
   // for rootys thank you function
   const response = [
@@ -70,7 +71,4 @@ const { JSDOM } = jsdom;
               });
         });
   };
-
-
-const instance = new Functions();
-export default instance;
+}
