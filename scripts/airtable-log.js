@@ -77,18 +77,12 @@ module.exports = function (robot) {
       }
 
       else{
-      //Create company record for the logged company
-      functions.putCompany(company).then(function(record) {
+        //Create company record for the logged company
+        functions.putCompany(company).then(function(record) {
         companyUID = record.getId();
         //create a Lead in Deal pipeline associated with the company
-        /*base('Deal Pipeline').create({
-            "Status": "Lead",
-            "Company": [
-               companyUID
-            ],
-            "Owner": contact
-          }*/
-      functions.putDeal(companyUID, contact).then(function(record) {
+
+        functions.putDeal(companyUID, contact).then(function(record) {
         dealRecord = record.getId();
 
         //start the dialog that speaks to the user
@@ -145,38 +139,6 @@ module.exports = function (robot) {
               founderRecords = functions.getFounderRecords();
               functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                       contact, notes, source, link);
-                  /*
-                  base('Companies').replace(companyUID, {
-                    "Company Name": company,
-                    "Tags": [
-                      "Pipeline"
-                    ],
-                    "Founders": founderRecords
-                  },
-                    function(err, record) {
-                      if (err) {
-                        console.error(err);
-                        return;
-                        console.log('Failed here: ' + company);
-                      }
-
-                      //update the deal to link the company again now that we have called replace function on the company in airtable
-                      // else it will unlink
-                      base('Deal Pipeline').replace(dealRecord, {
-                      "Status": "Lead",
-                          "Company": [
-                             companyUID
-                          ],
-                          "Owner": contact
-                        },
-                          function(err, record) {
-                            if (err) {
-                              console.error(err);
-                              return;
-                              console.log('Failed here: ' + company);
-                            }
-                      });
-            });*/
           });
         }
 
@@ -200,31 +162,12 @@ module.exports = function (robot) {
                                     contact, notes, source, link);
             return;
           }
+
+
           if ((notes) == ("s")){
             msg.reply("Skipped logging notes");
             notes = "";
           }
-
-        //not exit or skip so we update airtable with the notes
-        else{
-
-            //functions.updateDeal(dealRecord, companyUID, contact, notes).then(function(record){
-            /*base('Deal Pipeline').replace(dealRecord, {
-            "Status": "Lead",
-            "Company": [
-               companyUID
-            ],
-            "Notes": notes,
-            "Owner": contact
-          },
-            function(err, record) {
-              if (err) {
-                console.error(err);
-                return;
-                console.log('Failed here: ' + company);
-              }
-        });*/
-        }
 
         //prompt user to enter source
         msg.reply("What's your source? :kissing_heart:");
@@ -248,28 +191,7 @@ module.exports = function (robot) {
             msg.reply("Skipped logging source");
             source  = "";
           }
-
-            //not exit or skip so we enter the source into airtable
-        else{
-
-              /*base('Deal Pipeline').replace(dealRecord, {
-              "Status": "Lead",
-              "Company": [
-                 companyUID
-              ],
-              "Notes": notes,
-              "Owner": contact,
-              "Source": source
-            },
-              function(err, record) {
-                if (err) {
-                  console.error(err);
-                  return;
-                  console.log('Failed here: ' + company);
-                }
-          });*/
-        }
-
+          
         //prompt user to enter a pitch deck
         msg.reply("Attach a pitch deck! :books:");
 
@@ -315,23 +237,7 @@ module.exports = function (robot) {
                 .then(function(rawHtml) {
                   const dom = new JSDOM(rawHtml);
                   link = dom.window.document.querySelector("a").href;
-                  //update airtable record with the pitch deck
-                  /*base('Deal Pipeline').replace(dealRecord, {
-                  "Status": "Lead",
-                  "Company": [
-                     companyUID
-                  ],
-                  "Notes": notes,
-                  "Owner": contact,
-                  "Source": source,
-                  "Pitch Deck": [{"url": link}]
-                },
-                    function(err, record) {
-                      if (err) {
-                        console.error(err);
-                        return;
-                        console.log('Failed here: ' + company);
-                      }*/
+
                   functions.updateDeal(dealRecord, companyUID, contact, notes, source, link).then(function(record){
                     (async () => {
                       //revoke public access to the attachement url now that it has been posted to airtable
@@ -356,11 +262,6 @@ module.exports = function (robot) {
       });
       });
     }
-
-
-
-    //comment2
   });
-  //comment
 });
 }
