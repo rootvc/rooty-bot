@@ -9,13 +9,6 @@ const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
-var request = require('request');
-const {promisify} = require("es6-promisify");
-const { WebClient } = require('@slack/web-api');
-const web = new WebClient(token);
-const fetch = require("node-fetch");
-var jsdom = require('jsdom');
-const { JSDOM } = jsdom;
 
 
 
