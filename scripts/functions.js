@@ -76,12 +76,22 @@ const { JSDOM } = jsdom;
     var company = getCompanyNameFromMsg(msg);
     var companySeenBefore = false;
     const filterform = "\{Company Name\}= \'"+company +'\'';
+    /*return new Promise(function(resolve, reject) {
+
+
+
+    });*/
+
+
     return base('Companies').select({
             maxRecords: 1,
             view: "Everything",
             filterByFormula: filterform
         }).firstPage(function (err, records) {
+
+          msg.reply("loaded page");
           if (err){
+           msg.reply("rejected");
             return false;
           }
           records.forEach(function(record) {
