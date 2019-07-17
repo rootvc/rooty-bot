@@ -44,7 +44,6 @@ module.exports = function (robot) {
   // Triggered when rooty check _
   //used to check if a company exists in airtable without wanting to log it
     robot.respond(/check (.*)/i, function(msg){
-
     functions.checkCompanyInAirtable(msg).then(function(response){
       if (response){
         msg.reply(company + " already exists in Airtable.");
@@ -53,34 +52,6 @@ module.exports = function (robot) {
         msg.reply(company + " does not exist in Airtable.");
       }
     });
-    /*let company = msg.match[1].replace(/^\s+|\s+$/g, "");
-
-    // remove http:// in front in case slack autorenders a URL
-    company = company.replace(/.*?:\/\//g, "");
-    company = functions.replaceAll(company, '\'', '');
-    // capitalize company name - yea, Coffeescript is stoopid
-    company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
-    var companySeenBefore = false;
-    const filterform = "\{Company Name\}= \'"+company +'\'';
-    base('Companies').select({
-            maxRecords: 1,
-            view: "Everything",
-            filterByFormula: filterform
-        }).eachPage(function page(records, fetchNextPage) {
-
-            records.forEach(function(record) {
-                companySeenBefore = true;
-            });
-            if (companySeenBefore){
-              msg.reply(company + " already exists in Airtable.");
-            }
-            else{
-              msg.reply(company + " does not exist in Airtable.");
-            }
-          }, function done(err) {
-              if (err) { console.error(err); return; }
-          });*/
-
   });
 
 
@@ -93,9 +64,14 @@ module.exports = function (robot) {
         var owner = "kane@root.vc"
         owner = msg.envelope.user.email_address;
         var contact = [{"email": owner}];
-        let company = msg.match[1].replace(/^\s+|\s+$/g, "");
         var companyUID;
+        functions.checkCompanyInAirtable(msg).then(function(response){
+          if (response){
+            msg.reply(company + " already exists in Airtable.");
+          }
 
+          /*
+        let company = msg.match[1].replace(/^\s+|\s+$/g, "");
         // remove http:// in front in case slack autorenders a URL
         company = company.replace(/.*?:\/\//g, "");
         company = functions.replaceAll(company, '\'', '');
@@ -121,6 +97,7 @@ module.exports = function (robot) {
                 //if company exists in airtable we stop here
                 if (companySeenBefore){
                 }
+                */
                 else{
 
                   //Create company record for the logged company

@@ -73,14 +73,7 @@ const { JSDOM } = jsdom;
   };
 
   function checkCompanyInAirtable (msg){
-    let company = msg.match[1].replace(/^\s+|\s+$/g, "");
-
-    // remove http:// in front in case slack autorenders a URL
-    company = company.replace(/.*?:\/\//g, "");
-    company = replaceAll(company, '\'', '');
-    // capitalize company name - yea, Coffeescript is stoopid
-    company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
-
+    var company = getCompanyNameFromMsg(msg);
     var companySeenBefore = false;
     const filterform = "\{Company Name\}= \'"+company +'\'';
     base('Companies').select({
@@ -103,6 +96,19 @@ const { JSDOM } = jsdom;
           });
   }
 
+  function getCompanyNameFromMsg(msg){
+    let company = msg.match[1].replace(/^\s+|\s+$/g, "");
+
+    // remove http:// in front in case slack autorenders a URL
+    company = company.replace(/.*?:\/\//g, "");
+    company = replaceAll(company, '\'', '');
+    // capitalize company name - yea, Coffeescript is stoopid
+    company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
+    return company;
+  }
+
+  
+module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
 module.exports.response = response;
 module.exports.thanks = thanks;
