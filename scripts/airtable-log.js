@@ -239,9 +239,9 @@ module.exports = function (robot) {
           //exit and skip options
           if ((source) == ("e") || (source.substring(0,3) === 'log')){
             msg.reply("Exited logging for " + company);
+            source  = "";
             functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                     contact, notes, source, link);
-            source  = "";
             return;
           }
           if ((source) == ("s")){
