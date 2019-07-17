@@ -81,18 +81,10 @@ const { JSDOM } = jsdom;
             view: "Everything",
             filterByFormula: filterform
         }).eachPage(function page(records, fetchNextPage) {
-
             records.forEach(function(record) {
                 companySeenBefore = true;
             });
-            if (companySeenBefore){
-              msg.reply(company + " already exists in Airtable.");
-            }
-            else{
-              msg.reply(company + " does not exist in Airtable.");
-            }
-          }, function done(err) {
-              if (err) { console.error(err); return companySeenBefore; }
+            return companySeenBefore;
           });
   }
 
@@ -107,7 +99,7 @@ const { JSDOM } = jsdom;
     return company;
   }
 
-  
+
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
 module.exports.response = response;
