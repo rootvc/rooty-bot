@@ -353,7 +353,7 @@ module.exports = function (robot) {
       });
       });
     }
-      function updateAirtable(dealRecord, companyUID, company, founderRecords,
+    function updateAirtable(dealRecord, companyUID, company, founderRecords,
                               contact, notes, source, link){
         base('Companies').replace(companyUID, {
           "Company Name": company,
