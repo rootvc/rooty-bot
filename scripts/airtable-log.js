@@ -98,12 +98,8 @@ module.exports = function (robot) {
                  companyUID
               ],
               "Owner": contact
-            }*/functions.putDeal(companyUID, contact).then(function(err, record) {
-              if (err) {
-                console.error(err);
-                console.log('Failed here: ' + company);
-                return;
-              }
+            }*/functions.putDeal(companyUID, contact).then(function(record,err) {
+              console.log(err);
               dealRecord = record.getId();
 
               //start the dialog that speaks to the user
