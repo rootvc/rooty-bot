@@ -82,9 +82,11 @@ const { JSDOM } = jsdom;
             filterByFormula: filterform
         }).eachPage(function page(records, fetchNextPage) {
             records.forEach(function(record) {
+              msg.reply("here");
                 companySeenBefore = true;
             });
           }).then(function(){
+            msg.reply("here2");
             return companySeenBefore;
           }).catch((err) => {return false});
   }

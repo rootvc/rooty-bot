@@ -43,7 +43,8 @@ module.exports = function (robot) {
 
   // Triggered when rooty check _
   //used to check if a company exists in airtable without wanting to log it
-    robot.respond(/check (.*)/i, function(msg){
+    robot.respond(/check (.*)/i, function(msg
+      msg.reply("seen this");
     functions.checkCompanyInAirtable(msg).then(function(response){
       if (response){
         msg.reply(company + " already exists in Airtable.");
@@ -65,7 +66,7 @@ module.exports = function (robot) {
         owner = msg.envelope.user.email_address;
         var contact = [{"email": owner}];
         var companyUID;
-        
+
         functions.checkCompanyInAirtable(msg).then(function(response){
           if (response){
             msg.reply(company + " already exists in Airtable.");
