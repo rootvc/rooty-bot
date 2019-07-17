@@ -72,8 +72,16 @@ module.exports = function (robot) {
   robot.respond(/thank(s| you)/i, function (msg){
      msg.send(msg.random(response));
   });
+
   robot.hear(thanks, msg => msg.send(msg.random(response)));
 
+  robot.hear(help, msg => msg.send(
+    msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
+              "To log a company, say \"log _ \". \n" +
+                "At any point in logging a company, you can enter s to skip, or e to exit \n" +
+            "To check if a company has been logged, say \"check _\" \n" +
+        );
+  ));
 
 
   // Triggered when rooty check _
@@ -117,11 +125,6 @@ module.exports = function (robot) {
         var owner = "kane@root.vc"
         owner = msg.envelope.user.email_address;
         var contact = [{"email": owner}];
-
-
-
-
-
         let company = msg.match[1].replace(/^\s+|\s+$/g, "");
         var companyUID;
 
