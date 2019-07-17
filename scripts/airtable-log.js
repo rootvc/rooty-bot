@@ -75,13 +75,13 @@ module.exports = function (robot) {
 
   robot.hear(thanks, msg => msg.send(msg.random(response)));
 
-  robot.hear(help, msg => msg.send(
+  robot.respond(/help/i, function (msg){
     msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
               "To log a company, say \"log _ \". \n" +
                 "At any point in logging a company, you can enter s to skip, or e to exit \n" +
             "To check if a company has been logged, say \"check _\" \n" +
         );
-  ));
+  });
 
 
   // Triggered when rooty check _
