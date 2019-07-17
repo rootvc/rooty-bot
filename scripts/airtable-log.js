@@ -101,7 +101,7 @@ module.exports = function (robot) {
                 dealRecord = record.getId();
 
                 //start the dialog that speaks to the user
-                var dialog = switchBoard.startDialog(msg, 50000);
+                var dialog = switchBoard.startDialog(msg, 200000);
                 dialog.dialogTimeout = function(message){
                     functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                           contact, notes, source, link);
