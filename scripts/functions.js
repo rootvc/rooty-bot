@@ -105,15 +105,13 @@ const { JSDOM } = jsdom;
   }
 
   function putDeal(companyUID = "", contact = "kane@root.vc",status = "Lead"){
-    base('Deal Pipeline').create({
+    return base('Deal Pipeline').create({
         "Status": status,
         "Company": [
            companyUID
         ],
         "Owner": contact
-      }, function(err, record){
-        return function (err,record);
-      }
+      });
   }
 
 module.exports.putDeal = putDeal;
