@@ -64,12 +64,14 @@ module.exports = function (robot) {
 
         //Figure out who sent the message to make the owner field in airtable
         //by default it is kane
+        company = functions.getCompanyNameFromMsg(msg);
+
         var owner = "kane@root.vc"
         owner = msg.envelope.user.email_address;
         var contact = [{"email": owner}];
         var companyUID;
 
-        functions.checkCompanyInAirtable(msg).then(function(response){
+        functions.checkCompanyInAirtable(company).then(function(response){
           if (response){
             msg.reply(company + " already exists in Airtable.");
           }
