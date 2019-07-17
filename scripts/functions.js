@@ -40,8 +40,8 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
     var founderRecords = [];
     founderNames.reduce(function(promise, founder){
       promise.then(function(){
-        return postFoundertoAirtable(founder).then(function(result){
-          founderRecords.push(result);
+        return postFoundertoAirtable(founderRecords, founder).then(function(result){
+          return result;
         });
       });
     }, Promise.resolve(founderRecords));
