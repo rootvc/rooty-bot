@@ -7,14 +7,14 @@ var Conversation = require('hubot-conversation');
 const auth = 'Bearer ' + AIRTABLE_API_KEY;
 const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
-var Airtable = require('airtable');
-var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
-var request = require('request');
+const Airtable = require('airtable');
+const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
+const request = require('request');
 const {promisify} = require("es6-promisify");
 const { WebClient } = require('@slack/web-api');
 const web = new WebClient(token);
 const fetch = require("node-fetch");
-var jsdom = require('jsdom');
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const functions = require('./functions');
 
@@ -44,7 +44,17 @@ module.exports = function (robot) {
   // Triggered when rooty check _
   //used to check if a company exists in airtable without wanting to log it
     robot.respond(/check (.*)/i, function(msg){
-    let company = msg.match[1].replace(/^\s+|\s+$/g, "");
+
+    functions.checkCompanyInAirtable(msg).then(function(response){
+      if (response){
+        msg.reply(company + " already exists in Airtable.");
+      }
+      else{
+        msg.reply(company + " does not exist in Airtable.");
+      }
+    });
+    /*let company = msg.match[1].replace(/^\s+|\s+$/g, "");
+
     // remove http:// in front in case slack autorenders a URL
     company = company.replace(/.*?:\/\//g, "");
     company = functions.replaceAll(company, '\'', '');
@@ -69,7 +79,8 @@ module.exports = function (robot) {
             }
           }, function done(err) {
               if (err) { console.error(err); return; }
-          });
+          });*/
+
   });
 
 

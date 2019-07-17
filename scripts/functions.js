@@ -71,6 +71,39 @@ const { JSDOM } = jsdom;
               });
         });
   };
+
+  function checkCompanyInAirtable (msg){
+    let company = msg.match[1].replace(/^\s+|\s+$/g, "");
+
+    // remove http:// in front in case slack autorenders a URL
+    company = company.replace(/.*?:\/\//g, "");
+    company = replaceAll(company, '\'', '');
+    // capitalize company name - yea, Coffeescript is stoopid
+    company = (company.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
+
+    var companySeenBefore = false;
+    const filterform = "\{Company Name\}= \'"+company +'\'';
+    base('Companies').select({
+            maxRecords: 1,
+            view: "Everything",
+            filterByFormula: filterform
+        }).eachPage(function page(records, fetchNextPage) {
+
+            records.forEach(function(record) {
+                companySeenBefore = true;
+            });
+            if (companySeenBefore){
+              msg.reply(company + " already exists in Airtable.");
+            }
+            else{
+              msg.reply(company + " does not exist in Airtable.");
+            }
+          }, function done(err) {
+              if (err) { console.error(err); return companySeenBefore; }
+          });
+  }
+
+module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
 module.exports.response = response;
 module.exports.thanks = thanks;
 module.exports.postFoundertoAirtable = postFoundertoAirtable;
