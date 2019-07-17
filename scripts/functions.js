@@ -17,7 +17,7 @@ const fetch = require("node-fetch");
 var jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-module.exports = {
+
 
   // for rootys thank you function
   const response = [
@@ -71,4 +71,8 @@ module.exports = {
               });
         });
   };
-}
+module.exports.response = response;
+module.exports.thanks = thanks;
+module.exports.postFoundertoAirtable = postFoundertoAirtable;
+module.exports.postFounderstoAirtable = postFounderstoAirtable;
+module.exports.replaceAll = replaceAll;
