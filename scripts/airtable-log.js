@@ -381,6 +381,6 @@ module.exports = function (robot) {
                 "Pitch Deck": [{"url": link}]
               });
             });
-    });
+    }
   });
-}
+});
