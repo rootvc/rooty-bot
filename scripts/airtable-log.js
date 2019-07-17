@@ -174,8 +174,8 @@ module.exports = function (robot) {
                               return;
                               console.log('Failed here: ' + company);
                             }
-                      });*/
-            });
+                      });
+            });*/
           });
         }
 
