@@ -45,7 +45,8 @@ module.exports = function (robot) {
   //used to check if a company exists in airtable without wanting to log it
     robot.respond(/check (.*)/i, function(msg){
       msg.reply("seen this");
-    functions.checkCompanyInAirtable(msg).then(function(response){
+      company = functions.getCompanyNameFromMsg(msg);
+      functions.checkCompanyInAirtable(company).then(function(response){
       console.log(response);
       if (response){
         msg.reply(company + " already exists in Airtable.");

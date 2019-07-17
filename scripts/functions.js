@@ -72,8 +72,7 @@ const { JSDOM } = jsdom;
         });
   };
 
-  function checkCompanyInAirtable (msg){
-    var company = getCompanyNameFromMsg(msg);
+  function checkCompanyInAirtable (company){
     var companySeenBefore = false;
     const filterform = "\{Company Name\}= \'"+company +'\'';
     return new Promise(function(resolve, reject) {
