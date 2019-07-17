@@ -1,10 +1,10 @@
-const API_KEY = process.env.API_KEY;
-const BASE_KEY = process.env.BASE_KEY;
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
+const AIRTABLE_BASE_KEY = process.env.AIRTABLE_BASE_KEY;
 const token = process.env.token;
 
 
 var Conversation = require('hubot-conversation');
-const auth = 'Bearer ' + API_KEY;
+const auth = 'Bearer ' + AIRTABLE_API_KEY;
 const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
 var Airtable = require('airtable');
