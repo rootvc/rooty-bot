@@ -379,13 +379,8 @@ module.exports = function (robot) {
                 "Owner": contact,
                 "Source": source,
                 "Pitch Deck": [{"url": link}]
+              });
             });
-      });
-    },
-
-    function done(err) {
-        if (err) { console.error(err); return; }
     });
-
   });
 }
