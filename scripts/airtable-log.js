@@ -80,7 +80,7 @@ module.exports = function (robot) {
       //Create company record for the logged company
       functions.putCompany(company).then(function(record) {
         companyUID = record.getId();
-
+        console.log(companyUID);
         //create a Lead in Deal pipeline associated with the company
         /*base('Deal Pipeline').create({
             "Status": "Lead",
@@ -142,8 +142,7 @@ module.exports = function (robot) {
             //calls function that posts the founders to Airtable and then links their records to the Deal record
             functions.postFounderstoAirtable(founderNames).then(function (result){
               founderRecords = result;
-              console.log( "updating: "(dealRecord, companyUID, company, founderRecords,
-                                      contact, notes, source, link));
+              console.log( "updating: " + dealRecord +" " + companyUID + " " + founderRecords);
               updateAirtable(dealRecord, companyUID, company, founderRecords,
                                       contact, notes, source, link);
                   /*
@@ -340,8 +339,8 @@ module.exports = function (robot) {
               });
             })();
           }
-          console.log( "updating: "(dealRecord, companyUID, company, founderRecords,
-                                  contact, notes, source, link));
+          console.log( "updating: " + dealRecord +" " + companyUID + " " + founderRecords);
+
           updateAirtable(dealRecord, companyUID, company, founderRecords,
                                   contact, notes, source, link);
           msg.reply("Done logging for " + company + "!");
