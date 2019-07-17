@@ -44,7 +44,6 @@ module.exports = function (robot) {
   // Triggered when rooty check _
   //used to check if a company exists in airtable without wanting to log it
     robot.respond(/check (.*)/i, function(msg){
-      msg.reply("seen this");
       company = functions.getCompanyNameFromMsg(msg);
       functions.checkCompanyInAirtable(company).then(function(response){
       console.log(response);
@@ -99,7 +98,7 @@ module.exports = function (robot) {
                  companyUID
               ],
               "Owner": contact
-            }*/putDeal(companyUID, contact).then(function(err, record) {
+            }*/functions.putDeal(companyUID, contact).then(function(err, record) {
               if (err) {
                 console.error(err);
                 console.log('Failed here: ' + company);
