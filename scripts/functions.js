@@ -48,7 +48,7 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
   }
 
   // Creates founder object in airtable
-  let postFoundertoAirtable  = (founder) => {
+  let postFoundertoAirtable  = (founders, founder) => {
 
       return new Promise (
         (resolve,reject) => {
@@ -61,7 +61,7 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
                   console.error(err);
                   return;
                 }
-                resolve(record.getId());
+                resolve(founders.push(record.getId()));
               });
         });
   };
