@@ -65,6 +65,7 @@ module.exports = function (robot) {
         owner = msg.envelope.user.email_address;
         var contact = [{"email": owner}];
         var companyUID;
+        
         functions.checkCompanyInAirtable(msg).then(function(response){
           if (response){
             msg.reply(company + " already exists in Airtable.");

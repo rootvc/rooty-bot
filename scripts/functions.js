@@ -84,6 +84,7 @@ const { JSDOM } = jsdom;
             records.forEach(function(record) {
                 companySeenBefore = true;
             });
+          }).then(function(bool){
             return companySeenBefore;
           });
   }
