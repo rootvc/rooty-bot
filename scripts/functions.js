@@ -85,9 +85,10 @@ const { JSDOM } = jsdom;
               msg.reply("here");
                 companySeenBefore = true;
             });
-          }).then(function(){
-            msg.reply("here2");
             return companySeenBefore;
+          }).then(function(bool){
+            msg.reply("here2");
+            return bool;
           }).catch((err) => {return false});
   }
 
