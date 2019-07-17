@@ -80,16 +80,19 @@ const { JSDOM } = jsdom;
             maxRecords: 1,
             view: "Everything",
             filterByFormula: filterform
-        }).eachPage(function page(records, fetchNextPage) {
-            records.forEach(function(record) {
+        }).firstPage(function (err, records) {
+          if (err){
+            return false;
+          }
+          records.forEach(function(record) {
               msg.reply("here");
-                companySeenBefore = true;
-            });
-            return companySeenBefore;
+              return true;
+          });
+          return companySeenBefore;
           }).then(function(bool){
             msg.reply("here2");
             return bool;
-          }).catch((err) => {return false});
+          });
   }
 
   function getCompanyNameFromMsg(msg){
