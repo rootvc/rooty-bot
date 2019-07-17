@@ -77,9 +77,11 @@ module.exports = function (robot) {
 
   robot.respond(/help/i, function (msg){
     msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
+              "I can be found at https://github.com/rootvc/rooty-bot/blob/master/scripts/airtable-log.js \n" +
               "To log a company, say \"log _ \". \n" +
                 "At any point in logging a company, you can enter s to skip, or e to exit \n" +
-            "To check if a company has been logged, say \"check _\" \n");
+            "To check if a company has been logged, say \"check _\" \n +"
+             "These are some other things I can do:");
   });
 
 
