@@ -366,26 +366,21 @@ module.exports = function (robot) {
             if (err) {
               console.error(err);
               return;
-              console.log('Failed here: ' + company);
             }
 
             //update the deal to link the company again now that we have called replace function on the company in airtable
             // else it will unlink
             base('Deal Pipeline').replace(dealRecord, {
-            "Status": "Lead",
+                "Status": "Lead",
                 "Company": [
                    companyUID
                 ],
-                "Owner": contact
-              },
-                function(err, record) {
-                  if (err) {
-                    console.error(err);
-                    return;
-                    console.log('Failed here: ' + company);
-                  }
+                "Notes": notes,
+                "Owner": contact,
+                "Source": source,
+                "Pitch Deck": [{"url": link}]
             });
-      }
+      });
     },
 
     function done(err) {
