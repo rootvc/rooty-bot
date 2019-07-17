@@ -114,6 +114,16 @@ const { JSDOM } = jsdom;
       });
   }
 
+  function putCompany(company = ""){
+    return base('Companies').create({
+          "Company Name": company,
+          "Tags": [
+            "Pipeline"
+            ]
+          });
+  }
+
+module.exports.putCompany = putCompany;
 module.exports.putDeal = putDeal;
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;

@@ -77,17 +77,7 @@ module.exports = function (robot) {
 
       else{
         //Create company record for the logged company
-        base('Companies').create({
-          "Company Name": company,
-          "Tags": [
-            "Pipeline"
-          ]
-          //,"Founders": [""]
-        }, function(err, record) {
-          if (err) {
-            console.error(err);
-            console.log('Failed here: ' + company);
-          }
+        functions.putCompany(company).then(function(record) {
           companyUID = record.getId();
           var dealRecord;
 
@@ -98,8 +88,7 @@ module.exports = function (robot) {
                  companyUID
               ],
               "Owner": contact
-            }*/functions.putDeal(companyUID, contact).then(function(record,err) {
-              console.log(err);
+            }*/functions.putDeal(companyUID, contact).then(function(record) {
               dealRecord = record.getId();
 
               //start the dialog that speaks to the user
@@ -110,7 +99,8 @@ module.exports = function (robot) {
 
 
               // Responds to user and prompts them to enter founder names
-              msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1. \n:person_with_blond_hair: What are the founders names? :man-girl-boy: " );
+              msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1. \n" +
+                        ":person_with_blond_hair: What are the founders names? :man-girl-boy: " );
 
               //reads the next line of input from the user
               dialog.addChoice(/.*/i, function (msg2) {
