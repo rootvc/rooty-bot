@@ -92,26 +92,25 @@ function checkCompanyInAirtable (company){
 
 }
 
-function searchCompanyInAirtable (company){
+function searchCompanyInAirtable (msg){
   //const filterform = "OR(FIND(\'" + company + "\',\{Company Name\}))," +"(FIND(LOWER(\'" + company + "\'),\{Company Name\})))";
+  var company = getCompanyNameFromMsg(msg);
   const filterform = "(FIND(\'" + company + "\',\{Company Name\}))";
-
-    return new Promise(function(resolve, reject) {
-        return base('Companies').select({
-                view: "Everything",
-                fields: ['Company Name'],
-                filterByFormula: filterform
-            }).firstPage(function (err, records) {
-              if (err){
-                  reject(err);
-              }
-              records.forEach(function(record) {
-                  console.log(record);
-                  resolve(record);
-              });
+  return new Promise(function(resolve, reject) {
+      return base('Companies').select({
+              view: "Everything",
+              fields: ['Company Name'],
+              filterByFormula: filterform
+          }).firstPage(function (err, records) {
+            if (err){
+                reject(err);
+            }
+            records.forEach(function(record) {
+                msg.reply(record.get('Company Name'));
+                resolve(record);
             });
+          });
     });
-
 }
 
 //parses input from hubot for company name
