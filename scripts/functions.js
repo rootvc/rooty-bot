@@ -9,7 +9,7 @@ const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
-
+var founderRecords = [];
 
 
   // for rootys thank you function
@@ -37,18 +37,21 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
 
   //posts a list of strings to airtable as people objects and adds their record ID's to the array
   function postFounderstoAirtable (founderNames){
-    var founderRecords = [];
-    founderNames.reduce(function(promise, founder){
-      promise.then(function(){
-        return postFoundertoAirtable(founderRecords, founder).then(function(result){
-          return result;
+    return founderNames.reduce(function(promise, founder){
+      return promise.then(function(){
+        return postFoundertoAirtable(founder).then(function(result){
+          founderRecords.push(result);
         });
       });
-    }, Promise.resolve(founderRecords));
+    }, Promise.resolve());
   }
 
+  function getFounderRecords()(
+    return founderRecords;
+  )
+
   // Creates founder object in airtable
-  let postFoundertoAirtable  = (founders, founder) => {
+  let postFoundertoAirtable  = (founder) => {
 
       return new Promise (
         (resolve,reject) => {
@@ -61,7 +64,7 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
                   console.error(err);
                   return;
                 }
-                resolve(founders.push(record.getId()));
+                resolve(record.getId());
               });
         });
   };
@@ -133,6 +136,7 @@ var base = new Airtable({apiKey: AIRTABLE_API_KEY}).base(AIRTABLE_BASE_KEY);
           });
   }
 
+module.exports.getFounderRecords = getFounderRecords;
 module.exports.putCompany = putCompany;
 module.exports.updateDeal = updateDeal;
 module.exports.putDeal = putDeal;
