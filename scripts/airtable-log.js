@@ -229,8 +229,9 @@ module.exports = function (robot) {
                           })();
                       }
                       //update airtable with final inputs and tell user finished
-                      functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                                              contact, notes, source, link);
+                      //
+                      else {functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
+                                              contact, notes, source, link);}
                       msg.reply("Done logging for " + company + "!");
 
                   //these brackets are technically in different levels
