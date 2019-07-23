@@ -1,13 +1,14 @@
-print("surely")
-import time
 import sys
+print("1")
 from selenium import webdriver
+print("2")
 from selenium.webdriver.chrome.options import DesiredCapabilities
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 import random
 from fake_useragent import UserAgent
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 GOOGLE_CHROME_BIN = '/app/.apt/usr/bin/google-chrome'
+print("3")
 
 co = webdriver.ChromeOptions()
 co.add_argument("log-level=3")
@@ -15,6 +16,8 @@ co.add_argument("--headless")
 co.binary_location = GOOGLE_CHROME_BIN
 co.add_argument('--disable-gpu')
 co.add_argument('--no-sandbox')
+print("4")
+
 #import proxyscrape
 #collector = proxyscrape.create_collector('default', 'http')
 
