@@ -106,7 +106,7 @@ module.exports = function (robot) {
                 }
 
                 const spawn = require("child_process").spawn;
-                var pythonProcess = spawn('python',["./webdriver.py", company]);
+                var pythonProcess = spawn('python',["./python-getting-started/webdriver.py", company]);
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
                 pythonProcess.stdout.on('data', (data) => {
@@ -140,7 +140,6 @@ module.exports = function (robot) {
                 });
 
                 pythonProcess.on('exit', function(err){
-                console.log(err);
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
