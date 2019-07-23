@@ -1,6 +1,6 @@
 django
 gunicorn
 django-heroku
-selenium==3.141.0
-fake_useragent==0.1.11
-urllib3==1.25.3
+selenium
+fake_useragent
+urllib3
