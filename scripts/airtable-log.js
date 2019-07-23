@@ -123,8 +123,8 @@ module.exports = function (robot) {
                     founders = dataArr[3];
                     website = dataArr[4];
                 });
-                pythonProcess.on('exit', function(){
-
+                pythonProcess.on('error', function(err){
+                console.log(err);
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
