@@ -134,7 +134,7 @@ module.exports = function (robot) {
                 var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
-                pythonProcess.stdout.on('data', (data) => {
+              /*  pythonProcess.stdout.on('data', (data) => {
                     if (data.toString() === 'Wrong\n'){
                         crunchbaseSuccess = false;
                         return;
@@ -148,7 +148,7 @@ module.exports = function (robot) {
                     website = dataArr[4];
                 });
 
-                pythonProcess.on('exit', function(){
+                pythonProcess.on('exit', function(){*/
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
@@ -293,7 +293,7 @@ module.exports = function (robot) {
                   });
                   });
               });
-              });
+            //  });
               });
               });
           }
