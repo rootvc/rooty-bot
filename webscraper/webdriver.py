@@ -50,3 +50,4 @@ try:
 
 except Exception as e:
     print("Wrong")
+    driver.quit()

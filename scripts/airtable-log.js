@@ -59,10 +59,10 @@ module.exports = function (robot) {
           founders = dataArr[3];
           website = dataArr[4];
       });
-
       pythonProcess.on('exit', function(err){
         msg.reply(crunchbaseData);
       });
+
     });
 
 
@@ -147,27 +147,12 @@ module.exports = function (robot) {
                     founders = dataArr[3];
                     website = dataArr[4];
                 });
-                pythonProcess.on('message', function(message){
-                  console.log('message:' + message );
-                });
-                pythonProcess.on('rejectionHandled', function(promise){
-                  console.log('rejectionHandled:');
-                });
-                pythonProcess.on('uncaughtException', function(promise){
-                  console.log('uncaughtException:');
-                });
-                pythonProcess.on('disconnect', function(promise){
-                  console.log('disconnect:');
-                });
-                pythonProcess.on('multipleResolves', function(promise){
-                  console.log('multipleResolves:');
-                });
 
-                pythonProcess.on('exit', function(err){
+                pythonProcess.on('exit', function(){
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
-                msg.reply( crunchbaseData + '\nDoes this look correct? y/n');
+                //msg.reply( crunchbaseData + '\nDoes this look correct? y/n');
 
                 msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
 
