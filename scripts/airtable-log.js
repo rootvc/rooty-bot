@@ -106,7 +106,7 @@ module.exports = function (robot) {
                 }
 
                 const spawn = require("child_process").spawn;
-                var pythonProcess = spawn('python',["./python-getting-started/webdriver.py", company]);
+                var pythonProcess = spawn('python',["./webdriver.py", company]);
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
                 pythonProcess.stdout.on('data', (data) => {
