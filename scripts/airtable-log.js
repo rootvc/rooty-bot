@@ -40,6 +40,31 @@ module.exports = function (robot) {
                "These are some other things I can do:");
     });
 
+    robot.respond(/whois (.*)/i, function(msg){
+      company = functions.getCompanyNameFromMsg(msg);
+      const spawn = require("child_process").spawn;
+      var pythonProcess = spawn('python',["./webdriver.py", company]);
+      var crunchbaseSuccess = true;
+      var crunchbaseData = '';
+      pythonProcess.stdout.on('data', (data) => {
+          if (data.toString() === 'Wrong\n'){
+              crunchbaseSuccess = false;
+              return;
+          }
+          crunchbaseData = data.toString();
+          const dataArr = data.toString().split(/\r?\n/);
+          amount_raised = dataArr[0];
+          notes = dataArr[1];
+          location = dataArr[2];
+          founders = dataArr[3];
+          website = dataArr[4];
+      });
+
+      pythonProcess.on('exit', function(err){
+        msg.reply(crunchbaseData);
+      });
+    });
+
 
     // Triggered when rooty check _
     //used to check if a company exists in airtable without wanting to log it
@@ -110,7 +135,6 @@ module.exports = function (robot) {
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
                 pythonProcess.stdout.on('data', (data) => {
-                    msg.reply(data.toString());
                     if (data.toString() === 'Wrong\n'){
                         crunchbaseSuccess = false;
                         return;
@@ -143,7 +167,7 @@ module.exports = function (robot) {
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
-                msg.reply('Does this look correct? y/n' + '\n' + crunchbaseData);
+                msg.reply( crunchbaseData + '\nDoes this look correct? y/n');
 
                 msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
 
