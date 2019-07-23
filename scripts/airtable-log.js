@@ -123,7 +123,23 @@ module.exports = function (robot) {
                     founders = dataArr[3];
                     website = dataArr[4];
                 });
-                pythonProcess.on('error', function(err){
+                pythonProcess.on('message', function(message){
+                  console.log('message:' + message );
+                });
+                pythonProcess.on('rejectionHandled', function(promise){
+                  console.log('rejectionHandled:');
+                });
+                pythonProcess.on('uncaughtException', function(promise){
+                  console.log('uncaughtException:');
+                });
+                pythonProcess.on('disconnect', function(promise){
+                  console.log('disconnect:');
+                });
+                pythonProcess.on('multipleResolves', function(promise){
+                  console.log('multipleResolves:');
+                });
+
+                pythonProcess.on('exit', function(err){
                 console.log(err);
 
                 // Responds to user and prompts them to enter founder names
