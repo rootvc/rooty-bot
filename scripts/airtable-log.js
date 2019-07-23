@@ -4,6 +4,8 @@ const token = process.env.token;
 
 
 var Conversation = require('hubot-conversation');
+const {promisify} = require("es6-promisify");
+const events = require('events');
 const auth = 'Bearer ' + AIRTABLE_API_KEY;
 const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
@@ -67,7 +69,10 @@ module.exports = function (robot) {
         var notes = "";
         var source = "";
         var link = "";
-
+        var founders = "";
+        var website = "";
+        var amount_raised = "";
+        var location = "";
         //Figure out who sent the message to make the owner field in airtable
         //by default it is kane
         company = functions.getCompanyNameFromMsg(msg);
@@ -100,10 +105,32 @@ module.exports = function (robot) {
                     message.reply("Timed out. No need to enter any more data.");
                 }
 
+                const spawn = require("child_process").spawn;
+                var pythonProcess = spawn('python',["./webdriver.py", company]);
+                var crunchbaseSuccess = true;
+                var crunchbaseData = '';
+                pythonProcess.stdout.on('data', (data) => {
+                    if (data.toString() === 'Wrong\n'){
+                        crunchbaseSuccess = false;
+                        return;
+                    }
+                    crunchbaseData = data.toString();
+                    const dataArr = data.toString().split(/\r?\n/);
+                    amount_raised = dataArr[0];
+                    notes = dataArr[1];
+                    location = dataArr[2];
+                    founders = dataArr[3];
+                    website = dataArr[4];
+                });
+                pythonProcess.on('exit', function(){
+
 
                 // Responds to user and prompts them to enter founder names
-                msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1. \n" +
-                          ":person_with_blond_hair: What are the founders names? :man-girl-boy: " );
+                msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
+                msg.reply('Does this look correct? y/n' + '\n' + crunchbaseData);
+
+                msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
+
 
                 //reads the next line of input from the user
                 dialog.addChoice(/.*/i, function (msg2) {
@@ -229,7 +256,6 @@ module.exports = function (robot) {
                           })();
                       }
                       //update airtable with final inputs and tell user finished
-                      //
                       else {functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                               contact, notes, source, link);}
                       msg.reply("Done logging for " + company + "!");
@@ -241,6 +267,7 @@ module.exports = function (robot) {
                   });
                   });
                   });
+              });
               });
               });
               });
