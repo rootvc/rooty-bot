@@ -43,7 +43,7 @@ module.exports = function (robot) {
     robot.respond(/whois (.*)/i, function(msg){
       company = functions.getCompanyNameFromMsg(msg);
       const spawn = require("child_process").spawn;
-      var pythonProcess = spawn('python',["./webdriver.py", company]);
+      var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
       var crunchbaseSuccess = true;
       var crunchbaseData = '';
       pythonProcess.stdout.on('data', (data) => {
@@ -131,7 +131,7 @@ module.exports = function (robot) {
                 }
 
                 const spawn = require("child_process").spawn;
-                var pythonProcess = spawn('python',["./webdriver.py", company]);
+                var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
                 pythonProcess.stdout.on('data', (data) => {
