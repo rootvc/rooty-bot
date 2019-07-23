@@ -152,7 +152,7 @@ module.exports = function (robot) {
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
-                //msg.reply( crunchbaseData + '\nDoes this look correct? y/n');
+                msg.reply(crunchbaseData + '\n');
 
                 msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
 
