@@ -110,6 +110,7 @@ module.exports = function (robot) {
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
                 pythonProcess.stdout.on('data', (data) => {
+                    msg.reply('im here');
                     if (data.toString() === 'Wrong\n'){
                         crunchbaseSuccess = false;
                         return;
