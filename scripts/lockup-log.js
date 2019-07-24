@@ -24,7 +24,7 @@ module.exports = function (robot) {
           //start the dialog that speaks to the user
           var dialog = switchBoard.startDialog(msg, 200000);
           dialog.dialogTimeout = function(message){
-              exited();
+              enterData();
               message.reply("Timed out. No need to enter any more data.");
           }
 
