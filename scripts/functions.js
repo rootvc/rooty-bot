@@ -145,7 +145,7 @@ function putDeal(companyUID = "", contact = "kane@root.vc",status = "Lead"){
         ],
         "Owner": contact
       });
-  }
+}
 
 //updates a Deal record into airtable
 //returns a Promise containing the record

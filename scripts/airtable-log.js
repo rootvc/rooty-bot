@@ -62,7 +62,6 @@ module.exports = function (robot) {
       pythonProcess.on('exit', function(err){
         msg.reply(crunchbaseData);
       });
-
     });
 
 
@@ -130,8 +129,8 @@ module.exports = function (robot) {
                     message.reply("Timed out. No need to enter any more data.");
                 }
 
-                const spawn = require("child_process").spawn;
-                var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
+                //const spawn = require("child_process").spawn;
+                // var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
                 var crunchbaseSuccess = true;
                 var crunchbaseData = '';
               /*  pythonProcess.stdout.on('data', (data) => {
@@ -152,7 +151,6 @@ module.exports = function (robot) {
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
-                msg.reply(crunchbaseData + '\n');
 
                 msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
 
@@ -162,7 +160,7 @@ module.exports = function (robot) {
 
                     var founders = functions.getStringFromMsg(msg2);
 
-                      //exit and skip options
+                    //exit and skip options
                     if ((founders) == ("e") || (founders.substring(0,3) === 'log')){
                         msg.reply("Exited logging for " + company);
                         founders = "";
@@ -191,10 +189,10 @@ module.exports = function (robot) {
                             founderRecords = functions.getFounderRecords();
                             functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                   contact, notes, source, link);
-                      });
+                        });
                   }
 
-                  //prompt user for notes
+                  // prompt user for notes
                   msg.reply(":spiral_note_pad: Any notes on the company? :spiral_note_pad:");
                   //read in line of input
                   dialog.addChoice(/.*/i, function (msg3) {
