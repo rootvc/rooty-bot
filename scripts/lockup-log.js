@@ -1,20 +1,12 @@
 const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_KEY = process.env.AIRTABLE_BASE_KEY;
-const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appkd4LqDq6LvI5zM');
-
-const token = process.env.token;
-//
 
 var Conversation = require('hubot-conversation');
-const {promisify} = require("es6-promisify");
 const events = require('events');
 const auth = 'Bearer ' + AIRTABLE_API_KEY;
 const Airtable = require('airtable');
-const { WebClient } = require('@slack/web-api');
-const web = new WebClient(token);
-const fetch = require("node-fetch");
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const base = new Airtable({apiKey: AIRTABLE_API_KEY}).base('appkd4LqDq6LvI5zM');
+
 const functions = require('./functions');
 
 
