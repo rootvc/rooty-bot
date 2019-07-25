@@ -178,6 +178,7 @@ module.exports = function (robot) {
                         //parses the input to separate by commas and " and"'s
                         founders = (founders.split(' ').map(word => word[0].toUpperCase() + word.slice(1))).join(' ');
                         founders = functions.replaceAll(founders, " And", ",");
+                        founders = functions.replaceAll(founders, " &", ",");
                         founders = functions.replaceAll(founders, ", ", ",");
                         founders = founders.replace(/[,]+/g, ",").trim();
 
