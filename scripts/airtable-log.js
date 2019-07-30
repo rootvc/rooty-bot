@@ -71,8 +71,8 @@ module.exports = function (robot) {
         company = functions.getCompanyNameFromMsg(msg);
         functions.checkCompanyInAirtable(company).then(function(response){
             if (response){
-                console.log(response);
                 msg.reply(company + " already exists in Airtable.");
+                msg.reply('https://airtable.com/tblKyMSdDH0tXVV8Z/viwm2ez5rq5s8icSf/' + response.getId());
             }
             else{
                 msg.reply(company + " does not exist in Airtable.");
@@ -110,7 +110,7 @@ module.exports = function (robot) {
             //if exists in airtable, do nothing and tell user
             if (response){
                 msg.reply(company + " already exists in Airtable.");
-                console.log(response);
+                msg.reply('https://airtable.com/tblKyMSdDH0tXVV8Z/viwm2ez5rq5s8icSf/' + response.getId());
             }
 
             else{
