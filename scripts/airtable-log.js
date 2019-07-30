@@ -71,6 +71,7 @@ module.exports = function (robot) {
         company = functions.getCompanyNameFromMsg(msg);
         functions.checkCompanyInAirtable(company).then(function(response){
             if (response){
+                System.out.println(response);
                 msg.reply(company + " already exists in Airtable.");
             }
             else{
@@ -109,6 +110,7 @@ module.exports = function (robot) {
             //if exists in airtable, do nothing and tell user
             if (response){
                 msg.reply(company + " already exists in Airtable.");
+                System.out.println(response);
             }
 
             else{

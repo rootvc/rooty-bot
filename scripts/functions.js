@@ -84,7 +84,7 @@ function checkCompanyInAirtable (company){
                   reject(err);
               }
               records.forEach(function(record) {
-                  resolve(true);
+                  resolve(record);
               });
               resolve(false);
             });
