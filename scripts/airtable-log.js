@@ -110,7 +110,7 @@ module.exports = function (robot) {
             //if exists in airtable, do nothing and tell user
             if (response){
                 msg.reply(company + " already exists in Airtable.");
-                System.out.println(response);
+                console.log(response);
             }
 
             else{
