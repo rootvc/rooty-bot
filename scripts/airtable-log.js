@@ -66,7 +66,7 @@ module.exports = function (robot) {
                             dataArr = JSON.parse(data);
                           }
                           catch(error){
-                            //console.log(error);
+                            console.log(error);
                             return;
                           }
                           var companyInfo = dataArr[0];
