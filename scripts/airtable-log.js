@@ -30,7 +30,7 @@ module.exports = function (robot) {
     });
 
     //rooty responds when thanked
-    robot.respond(/updateairtable)/i, function (msg){
+    robot.respond(/updateairtable/i, function (msg){
         msg.send('doing that');
         base('Companies').select({
             // Selecting the first 3 records in Active Portfolio:
@@ -158,7 +158,7 @@ module.exports = function (robot) {
               "To check if a company has been logged, say \"check _\" \n " +
                "These are some other things I can do:");
     });
-
+//
     robot.respond(/whois (.*)/i, function(msg){
       company = functions.getCompanyNameFromMsg(msg);
       const spawn = require("child_process").spawn;
