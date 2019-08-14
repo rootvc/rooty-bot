@@ -31,6 +31,7 @@ module.exports = function (robot) {
 
     //rooty responds when thanked
     robot.respond(/updateairtable/i, function (msg){
+        const spawn = require("child_process").spawn;
         msg.send('doing that');
         base('Companies').select({
             // Selecting the first 3 records in Active Portfolio:
