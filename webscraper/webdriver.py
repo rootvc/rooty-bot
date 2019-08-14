@@ -49,6 +49,7 @@ try:
         action.perform()
     except Exception as e:
         # no bot detection
+        print(e)
         woo = 'woo'
     time.sleep(3)
 
