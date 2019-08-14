@@ -132,7 +132,7 @@ try:
             str = 'problem patsing round data'
 
 
-    print(json.dumps(jsonlist,ensure_ascii=False).encode('utf8'))
+    print(json.dumps(jsonlist,ensure_ascii=False))
     sys.stdout.flush()
     driver.quit()
 
