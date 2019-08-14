@@ -46,6 +46,18 @@ module.exports = function (robot) {
             asyncForEach(records, async (record) => {
                 var cburl = record.get('Company Name');
                 var foundersfromairtable = record.get('Founders');
+                var roundsfromairtable = record.get('Rounds');
+                if ((typeof roundsfromairtable !== 'undefined')){
+                  for (let index = 0; index < roundsfromairtable.length; index++) {
+                    base('Rounds').destroy(roundsfromairtable[index], function(err, deletedRecord) {
+                        if (err) {
+                          console.error(err);
+                          return;
+                        }
+                      });
+                  }
+                }
+
                 var id = record.getId();
                 console.log(cburl);
                 function fetchCompany()  {
