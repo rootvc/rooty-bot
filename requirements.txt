@@ -4,3 +4,4 @@ django-heroku
 selenium
 fake_useragent
 urllib3
+json
