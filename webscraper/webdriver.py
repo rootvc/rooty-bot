@@ -29,7 +29,7 @@ def proxy_driver(co=co):
     #prox.add_to_capabilities(capabilities)
     #print(pxy.__dict__)
     driver = webdriver.Chrome(chrome_options=options,
-                            executable_path='/Users/adam/Downloads/chromedriver')
+                            executable_path=CHROMEDRIVER_PATH)
     return driver
 
 try:
