@@ -115,7 +115,7 @@ try:
 
     for round in rounds:
         try:
-            round = round.encode('utf-8').replace('\xe2', '').replace('\x80', '').replace('\x94', '').replace('\xac', '').replace('\xa3', '')
+            round = round.replace('\xe2', '').replace('\x80', '').replace('\x94', '').replace('\xac', '').replace('\xa3', '')
             roundlist = round.split('\n')
             date = roundlist[0]
             roundtype = roundlist[1][:roundlist[1].index(" -")]
@@ -129,6 +129,7 @@ try:
             list = {"date":date, "type": roundtype, "num": numinvestors, "size": roundsize, "inv": investors}
             jsonlist.append(list)
         except Exception as e:
+            print(e)
             str = 'problem patsing round data'
 
 
