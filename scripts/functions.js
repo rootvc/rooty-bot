@@ -232,10 +232,18 @@ function whoisCrunchbaseOneCompany(cburl){
                 console.log(error);
                 return;
               }
+              var founderNames = companyInfo.founders;
 
+              theData = [
+                'Amount Raised: ' + companyInfo.raised + '\n',
+                'Crunchbase URL: ' + companyInfo.cburl,
+                'Description: ' + companyInfo.description + '\n',
+                'Location: ' +  companyInfo.location,
+                'Company URL: ' + companyInfo.url,
+                'Founders: ' + founderNames,
+              ];
               var companyInfo = dataArr[0];
-              var rounds = [];
-              for( let i in dataArr ){
+              for(let i in dataArr) {
                   if (i==0) continue;
                   let round = dataArr[i];
                   //console.log(round);
@@ -244,30 +252,11 @@ function whoisCrunchbaseOneCompany(cburl){
                   const num = round.num;
                   const type = round.type;
                   const size = round.size;
-                  rounds.push({
-                        "Round": type,
-                        "Round Size": size,
-                        "Number of Investors": num,
-                        "Date Round Announced": date,
-                        "Lead Investors": inv
-                      });
-                }
 
-
-              var founderNames = companyInfo.founders;
-
-              theData = [
-              'Amount Raised: ' + companyInfo.raised + '\n',
-              'Crunchbase URL: ' + companyInfo.cburl,
-              'Description: ' + companyInfo.description + '\n',
-              'Location: ' +  companyInfo.location,
-              'Company URL: ' + companyInfo.url,
-              'Rounds: ' + JSON.stringify(rounds),
-              'Founders: ' + founderNames,
-            ];
-
-
-
+                  theData.push(
+                          type + 'of ' + size + "with" + num + "investors that was announced on " + date + "and led by" + inv
+                      );
+              }
         });
 
         pythonProcess.on('exit', function(){
