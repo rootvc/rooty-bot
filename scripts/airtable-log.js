@@ -52,8 +52,8 @@ module.exports = function (robot) {
     robot.respond(/whois (.*)/i, function(msg){
       company = functions.getCompanyNameFromMsg(msg);
       functions.whoisCrunchbaseOneCompany(company).then(function (result){
-        console.log(result);
-        msg.reply(result[0]);
+        console.log(result.toString());
+        msg.reply(result.stringify());
       });
     });
 
