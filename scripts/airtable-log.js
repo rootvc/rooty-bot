@@ -29,6 +29,11 @@ module.exports = function (robot) {
         msg.send(msg.random(functions.response));
     });
 
+    //calls the function which updates every company that has the box "Needs crunchbase Scraping " checked in airtable
+    robot.respond(/updateairtable/i, function (msg){
+        functions.updateCrunchbase();
+    });
+
 
 
     robot.hear(functions.thanks, msg => msg.send(msg.random(functions.response)));
@@ -165,7 +170,7 @@ module.exports = function (robot) {
                     var founders = functions.getStringFromMsg(msg2);
 
                     //exit and skip options
-                    if ((founders) == ("e") || (founders.substring(0,3) === 'log')){
+                    if ((founders) == ("e") || (founders) == ("x") || (founders) == ("E") || (founders) == ("X") || (founders.substring(0,3) === 'log')){
                         msg.reply("Exited logging for " + company);
                         founders = "";
                         functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
@@ -205,7 +210,7 @@ module.exports = function (robot) {
                       functions.updateCrunchbaseOneCompany(companyUID);
 
                       //exit and skip options
-                      if ((notes) == ("e") || (notes.substring(0,3) === 'log')) {
+                      if ((notes) == ("e") || (notes) == ("x") || (notes) == ("E") || (notes) == ("X") || (notes.substring(0,3) === 'log')) {
                           msg.reply("Exited logging for " + company);
                           notes = "";
                           functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
@@ -223,7 +228,7 @@ module.exports = function (robot) {
                       source = functions.getStringFromMsg(msg4);
 
                       //exit and skip options
-                      if ((source) == ("e") || (source.substring(0,3) === 'log')){
+                      if ((source) == ("e") || (source) == ("e") || (source) == ("E") || (source) == ("X") || (source.substring(0,3) === 'log')){
                           msg.reply("Exited logging for " + company);
                           source  = "";
                           functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
@@ -243,7 +248,7 @@ module.exports = function (robot) {
 
 
                       //exit and skip options
-                      if ((pitchdeck) == ("e") || (pitchdeck.substring(0,3) === 'log')){
+                      if ((pitchdeck) == ("e") || (pitchdeck) == ("x") || (pitchdeck) == ("E") || (pitchdeck) == ("X") || (pitchdeck.substring(0,3) === 'log')){
                           msg.reply("Done logging for " + company + "!");
                           functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                   contact, notes, source, link);
