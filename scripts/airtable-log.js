@@ -123,7 +123,6 @@ module.exports = function (robot) {
                 //create a Lead in Deal pipeline associated with the company
                 functions.putDeal(companyUID, contact).then(function(record) {
                 dealRecord = record.getId();
-                functions.updateCrunchbaseOneCompany(companyUID);
 
                 //start the dialog that speaks to the user
                 var dialog = switchBoard.startDialog(msg, 200000);
@@ -131,7 +130,8 @@ module.exports = function (robot) {
                     functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                           contact, notes, source, link);
                     message.reply("Timed out. No need to enter any more data.");
-                }
+                    functions.updateCrunchbaseOneCompany(companyUID);
+                  }
 
                 //const spawn = require("child_process").spawn;
                 // var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
@@ -202,6 +202,7 @@ module.exports = function (robot) {
                   //read in line of input
                   dialog.addChoice(/.*/i, function (msg3) {
                       notes = functions.getStringFromMsg(msg3);
+                      functions.updateCrunchbaseOneCompany(companyUID);
 
                       //exit and skip options
                       if ((notes) == ("e") || (notes.substring(0,3) === 'log')) {
