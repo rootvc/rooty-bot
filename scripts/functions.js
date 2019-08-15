@@ -233,6 +233,7 @@ function whoisCrunchbaseOneCompany(cburl){
                 console.log(error);
                 return;
               }
+              var companyInfo = dataArr[0];
               var founderNames = companyInfo.founders;
 
               theData = [
@@ -243,7 +244,6 @@ function whoisCrunchbaseOneCompany(cburl){
                 'Company URL: ' + companyInfo.url,
                 'Founders: ' + founderNames,
               ];
-              var companyInfo = dataArr[0];
               for(let i in dataArr) {
                   if (i==0) continue;
                   let round = dataArr[i];

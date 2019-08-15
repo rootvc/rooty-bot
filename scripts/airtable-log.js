@@ -53,7 +53,7 @@ module.exports = function (robot) {
       company = functions.getCompanyNameFromMsg(msg);
       functions.whoisCrunchbaseOneCompany(company).then(function (result){
         console.log(JSON.stringify(result));
-        for( let i in dataArr ){
+        for( let i in result ){
 
           console.log(result[i]);
         }
