@@ -241,29 +241,29 @@ function whoisCrunchbaseOneCompany(cburl){
                   //console.log(round);
                   const date = round.date;
                   const inv = round.inv;
-                  const num = parseInt(round.num);
+                  const num = round.num;
                   const type = round.type;
-                  const size = parseInt(round.size);
+                  const size = round.size;
                   rounds.push({
                         "Round": type,
                         "Round Size": size,
                         "Number of Investors": num,
                         "Date Round Announced": date,
-                        "Lead Investors": inv + '\n'
+                        "Lead Investors": inv
                       });
                 }
 
 
-              var founderNames = companyInfo.founders.split(",");
+              var founderNames = companyInfo.founders;
 
-              theData = {
-              'Amount Raised': parseInt(companyInfo.raised) + '\n',
-              'Crunchbase URL': companyInfo.cburl + '\n',
-              'Description': companyInfo.description+ '\n',
-              'Location': companyInfo.location+ '\n',
-              'Company URL': companyInfo.url+ '\n',
-              'Rounds': rounds+ '\n',
-              'Founders': founderNames+ '\n',
+              theData = [
+              'Amount Raised: ' + companyInfo.raised + '\n',
+              'Crunchbase URL: ' + companyInfo.cburl,
+              'Description: ' + companyInfo.description + '\n',
+              'Location: ' +  companyInfo.location,
+              'Company URL: ' + companyInfo.url,
+              'Rounds: ' + JSON.stringify(rounds),
+              'Founders: ' + founderNames,
             };
 
 
