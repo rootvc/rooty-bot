@@ -214,6 +214,7 @@ function whoisCrunchbaseOneCompany(cburl){
     const spawn = require("child_process").spawn;
     return new Promise((resolve,reject) => {
         var pythonProcess = spawn('python',["./webscraper/webdriver.py", cburl]);
+        var theData
         pythonProcess.stdout.on('data', async (data) => {
             if (data.toString() === 'Error\n'){
                 crunchbaseSuccess = false;
