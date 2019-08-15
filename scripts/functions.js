@@ -212,68 +212,68 @@ function updateAirtable(dealRecord, companyUID, company, founderRecords,
 function whoisCrunchbaseOneCompany(cburl){
 
     const spawn = require("child_process").spawn;
+    return new Promise((resolve,reject) => {
+        var pythonProcess = spawn('python',["./webscraper/webdriver.py", cburl]);
+        pythonProcess.stdout.on('data', async (data) => {
+            if (data.toString() === 'Error\n'){
+                crunchbaseSuccess = false;
+            }
+            var dataArr = data.toString().split(/\r?\n/);
 
-              var pythonProcess = spawn('python',["./webscraper/webdriver.py", cburl]);
+            if (dataArr[1] === 'Error'){
+                console.log('Didnt get anything for ' + cburl);
+            }
 
-              pythonProcess.stdout.on('data', async (data) => {
-                  if (data.toString() === 'Error\n'){
-                      crunchbaseSuccess = false;
-                  }
-                  var dataArr = data.toString().split(/\r?\n/);
+              try{
+                console.log(data.toString());
+                dataArr = JSON.parse(data);
+              }
+              catch(error){
+                console.log(error);
+                return;
+              }
 
-                  if (dataArr[1] === 'Error'){
-                      console.log('Didnt get anything for ' + cburl);
-                  }
-
-                    try{
-                      console.log(data.toString());
-                      dataArr = JSON.parse(data);
-                    }
-                    catch(error){
-                      console.log(error);
-                      return;
-                    }
-
-                    var companyInfo = dataArr[0];
-                    var rounds = [];
-                    for( let i in dataArr ){
-                        if (i==0) continue;
-                        let round = dataArr[i];
-                        //console.log(round);
-                        const date = round.date;
-                        const inv = round.inv;
-                        const num = parseInt(round.num);
-                        const type = round.type;
-                        const size = parseInt(round.size);
-                        rounds.push({
-                              "Round": type,
-                              "Round Size": size,
-                              "Number of Investors": num,
-                              "Date Round Announced": date,
-                              "Lead Investors": inv
-                            });
-                      }
-
-
-                    var founderNames = companyInfo.founders.split(",");
-
-                    theData = {
-                    'Amount Raised': parseInt(companyInfo.raised),
-                    'Crunchbase URL': companyInfo.cburl,
-                    'Description': companyInfo.description,
-                    'Location': companyInfo.location,
-                    'Company URL': companyInfo.url,
-                    'Rounds': rounds,
-                    'Founders': founderNames,
-                  };
+              var companyInfo = dataArr[0];
+              var rounds = [];
+              for( let i in dataArr ){
+                  if (i==0) continue;
+                  let round = dataArr[i];
+                  //console.log(round);
+                  const date = round.date;
+                  const inv = round.inv;
+                  const num = parseInt(round.num);
+                  const type = round.type;
+                  const size = parseInt(round.size);
+                  rounds.push({
+                        "Round": type,
+                        "Round Size": size,
+                        "Number of Investors": num,
+                        "Date Round Announced": date,
+                        "Lead Investors": inv
+                      });
+                }
 
 
+              var founderNames = companyInfo.founders.split(",");
 
-              });
+              theData = {
+              'Amount Raised': parseInt(companyInfo.raised),
+              'Crunchbase URL': companyInfo.cburl,
+              'Description': companyInfo.description,
+              'Location': companyInfo.location,
+              'Company URL': companyInfo.url,
+              'Rounds': rounds,
+              'Founders': founderNames,
+            };
 
-              pythonProcess.on('exit', function(){
-                resolve(thedata);
-              });
+
+
+        });
+
+        pythonProcess.on('exit', function(){
+          resolve(theData);
+        });
+      })
 }
 
 
