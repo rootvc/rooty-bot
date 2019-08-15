@@ -46,28 +46,13 @@ module.exports = function (robot) {
               "To check if a company has been logged, say \"check _\" \n " +
                "These are some other things I can do:");
     });
-//
+
+
+    //
     robot.respond(/whois (.*)/i, function(msg){
       company = functions.getCompanyNameFromMsg(msg);
-      const spawn = require("child_process").spawn;
-      var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
-      var crunchbaseSuccess = true;
-      var crunchbaseData = '';
-      pythonProcess.stdout.on('data', (data) => {
-          if (data.toString() === 'Wrong\n'){
-              crunchbaseSuccess = false;
-              return;
-          }
-          crunchbaseData = data.toString();
-          const dataArr = data.toString().split(/\r?\n/);
-          amount_raised = dataArr[0];
-          notes = dataArr[1];
-          location = dataArr[2];
-          founders = dataArr[3];
-          website = dataArr[4];
-      });
-      pythonProcess.on('exit', function(err){
-        msg.reply(crunchbaseData);
+      functions.whoisCrunchbaseOneCompany(company).then(function(result){
+        msg.reply(result);
       });
     });
 

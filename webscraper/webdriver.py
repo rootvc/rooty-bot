@@ -35,7 +35,7 @@ def proxy_driver(co=co):
 try:
     driver = proxy_driver()
     company = sys.argv[1].replace(' ', '-' ).lower()
-    url = 'https://www.crunchbase.com/organization/' +company
+    url = 'https://www.crunchbase.com/organization/' + company
     #url = 'https://www.crunchbase.com/organization/ntopology'
 
 

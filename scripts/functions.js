@@ -207,6 +207,79 @@ function updateAirtable(dealRecord, companyUID, company, founderRecords,
         });
 }
 
+
+// get info from one company from crunchbase and return it in neat string format
+function whoisCrunchbaseOneCompany(cburl){
+
+    const spawn = require("child_process").spawn;
+
+              var pythonProcess = spawn('python',["./webscraper/webdriver.py", cburl]);
+
+              pythonProcess.stdout.on('data', async (data) => {
+                  if (data.toString() === 'Error\n'){
+                      crunchbaseSuccess = false;
+                  }
+                  var dataArr = data.toString().split(/\r?\n/);
+
+                  if (dataArr[1] === 'Error'){
+                      console.log('Didnt get anything for ' + cburl);
+                  }
+
+                    try{
+                      console.log(data.toString());
+                      dataArr = JSON.parse(data);
+                    }
+                    catch(error){
+                      console.log(error);
+                      return;
+                    }
+
+                    var companyInfo = dataArr[0];
+                    var rounds = [];
+                    for( let i in dataArr ){
+                        if (i==0) continue;
+                        let round = dataArr[i];
+                        //console.log(round);
+                        const date = round.date;
+                        const inv = round.inv;
+                        const num = parseInt(round.num);
+                        const type = round.type;
+                        const size = parseInt(round.size);
+                        rounds.push({
+                              "Round": type,
+                              "Round Size": size,
+                              "Number of Investors": num,
+                              "Date Round Announced": date,
+                              "Lead Investors": inv
+                            });
+                      }
+
+
+                    var founderNames = companyInfo.founders.split(",");
+
+                    theData = {
+                    'Amount Raised': parseInt(companyInfo.raised),
+                    'Crunchbase URL': companyInfo.cburl,
+                    'Description': companyInfo.description,
+                    'Location': companyInfo.location,
+                    'Company URL': companyInfo.url,
+                    'Rounds': rounds,
+                    'Founders': founderNames,
+                  };
+
+
+
+              });
+
+              pythonProcess.on('exit', function(){
+                resolve(thedata);
+              });
+}
+
+
+
+
+// get info from one company from crunchbase and update the airtable
 function updateCrunchbaseOneCompany(recordID){
 
     const spawn = require("child_process").spawn;
@@ -325,6 +398,7 @@ function updateCrunchbaseOneCompany(recordID){
       });
 }
 
+//update all the companies in airtable
 function updateCrunchbase(){
     const spawn = require("child_process").spawn;
     base('Companies').select({
@@ -455,6 +529,8 @@ function updateCrunchbase(){
     });
 }
 
+
+module.exports.whoisCrunchbaseOneCompany = whoisCrunchbaseOneCompany;
 module.exports.updateCrunchbaseOneCompany = updateCrunchbaseOneCompany;
 module.exports.updateCrunchbase = updateCrunchbase;
 module.exports.getStringFromMsg = getStringFromMsg;
