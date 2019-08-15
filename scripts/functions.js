@@ -320,7 +320,7 @@ function updateCrunchbaseOneCompany(recordID){
               });
           })
         }
-        await fetchCompany();
+        fetchCompany();
         console.log("Done")
       });
 }
