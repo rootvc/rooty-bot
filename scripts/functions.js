@@ -255,7 +255,7 @@ function whoisCrunchbaseOneCompany(cburl){
                   const size = round.size;
 
                   theData.push(
-                          type + 'of ' + size + "with" + num + "investors that was announced on " + date + "and led by" + inv
+                          type + ' of ' + size + " with " + num + " investor(s) - announced on " + date + " - led by " + inv
                       );
               }
         });
