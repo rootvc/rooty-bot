@@ -264,7 +264,7 @@ function whoisCrunchbaseOneCompany(cburl){
               'Company URL: ' + companyInfo.url,
               'Rounds: ' + JSON.stringify(rounds),
               'Founders: ' + founderNames,
-            };
+            ];
 
 
 
