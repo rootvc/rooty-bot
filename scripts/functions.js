@@ -249,7 +249,7 @@ function whoisCrunchbaseOneCompany(cburl){
                         "Round Size": size,
                         "Number of Investors": num,
                         "Date Round Announced": date,
-                        "Lead Investors": inv
+                        "Lead Investors": inv + '\n'
                       });
                 }
 
@@ -257,13 +257,13 @@ function whoisCrunchbaseOneCompany(cburl){
               var founderNames = companyInfo.founders.split(",");
 
               theData = {
-              'Amount Raised': parseInt(companyInfo.raised),
-              'Crunchbase URL': companyInfo.cburl,
-              'Description': companyInfo.description,
-              'Location': companyInfo.location,
-              'Company URL': companyInfo.url,
-              'Rounds': rounds,
-              'Founders': founderNames,
+              'Amount Raised': parseInt(companyInfo.raised) + '\n',
+              'Crunchbase URL': companyInfo.cburl + '\n',
+              'Description': companyInfo.description+ '\n',
+              'Location': companyInfo.location+ '\n',
+              'Company URL': companyInfo.url+ '\n',
+              'Rounds': rounds+ '\n',
+              'Founders': founderNames+ '\n',
             };
 
 
