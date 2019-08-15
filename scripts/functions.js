@@ -289,8 +289,8 @@ function updateCrunchbaseOneCompany(recordID){
                     var founderNames = companyInfo.founders.split(",");
 
                     //calls function that posts the founders to Airtable and then links their records to the Deal record
-                    functions.postFounderstoAirtable(founderNames).then(function (result){
-                        var founderRecords = functions.getFounderRecords();
+                    postFounderstoAirtable(founderNames).then(function (result){
+                        var founderRecords = getFounderRecords();
                         if (companyInfo.founders===''){
                             founderRecords = []
                           }
@@ -414,8 +414,8 @@ function updateCrunchbase(){
                       var founderNames = companyInfo.founders.split(",");
 
                       //calls function that posts the founders to Airtable and then links their records to the Deal record
-                      functions.postFounderstoAirtable(founderNames).then(function (result){
-                          var founderRecords = functions.getFounderRecords();
+                      postFounderstoAirtable(founderNames).then(function (result){
+                          var founderRecords = getFounderRecords();
                           if (companyInfo.founders===''){
                               founderRecords = []
                             }
