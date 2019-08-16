@@ -17,6 +17,8 @@ co.add_argument('--no-sandbox')
 
 #import proxyscrape
 #collector = proxyscrape.create_collector('default', 'http')
+
+# chromedriver path in heroku
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
 def proxy_driver(co=co):
@@ -28,6 +30,8 @@ def proxy_driver(co=co):
     #capabilities = webdriver.DesiredCapabilities.CHROME
     #prox.add_to_capabilities(capabilities)
     #print(pxy.__dict__)
+
+    # intialize selenium webdriver
     driver = webdriver.Chrome(chrome_options=options,
                             executable_path=CHROMEDRIVER_PATH)
     return driver
@@ -42,6 +46,8 @@ try:
     driver.get(url)
     time.sleep(2)
     try:
+        #this is to get past bot detection
+        #Bot detection requires press and hold on px-captcha object
         el = driver.find_element_by_id('px-captcha')
         action = webdriver.common.action_chains.ActionChains(driver)
         action.move_to_element_with_offset(el,0,0)
@@ -59,6 +65,7 @@ try:
     except Exception as e:
         pageheader = ''
 
+        ## if noot =
     if (pageheader== 'Page not found'):
         raise Exception('No crunchbase page')
 

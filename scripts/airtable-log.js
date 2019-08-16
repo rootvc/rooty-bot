@@ -41,10 +41,26 @@ module.exports = function (robot) {
     robot.respond(/help/i, function (msg){
         msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
                 "I can be found at https://github.com/rootvc/rooty-bot/blob/master/scripts/airtable-log.js \n" +
-                "To log a company, say \"log _ \". \n" +
-                  "At any point in logging a company, you can enter s to skip, or e to exit \n" +
-              "To check if a company has been logged, say \"check _\" \n " +
-               "These are some other things I can do:");
+                "Here are some of my features:  \n" +
+                'log X \n This logs X as a company in the Airtable'
+                   + '\n\t The followup questions will let you enter details about the company, founders, notes, attach a pitch deck, etc.'
+                   + '\n \tIt also automatically will fill in info about the company\'s raises, location, website, description, etc. from Crunchbase if it can be found'
+                   + '\n \tAssigns an owner as the Airtable user who has the email as the person who sent the Slack msg (Kane by default)'
+                   + '\n\tAt any point, \"e\" exits logging and \"s\" skips an option'
+                   + '\n\tWill parse multiple founders separated by \"and\", \",\" or \"&\"'
+                   + '\n\tPitch deck uploads are tricky - it will download and upload to Airtable but because of Airtable\'s preview feature pulling from the link and not the download it will not let you preview in Airtable - you have to download the attachment from Airtable to view it (by clicking on the link after previewing).'
+                   + '\n check X'
+                   + '\n\tChecks if a company is already in the Airtable and tell you'
+                   + '\n whois X'
+                   + '\n\t Returns info pulled from Crunchbase about company X'
+                   + '\nsearch X'
+                   + '\n\tReturns all companies that contain string X from the Airtable'
+                   + '\nupdateairtable'
+                   + '\n\tUpdates info in Airtable pulling data from Crunchbase for all the companies that have the \"Needs Crunchbase Scraping\" box checked in Airtable (do this manually whenever you want updates)'
+                   + '\n\tDo not do more than 100 companies at a time or you run the risk of crashing the bot in Heroku'
+                   + '\nThank you'
+                   + '\n\tRooty will let you know that you are welcome' +
+               "\nThese are some other things I can do:");
     });
 
 
