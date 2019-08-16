@@ -33,7 +33,7 @@ The [scripts](./scripts) folder contains the javascript that is run when the bot
 
 * [airtable-log](./scripts/airtable-log.js) contains all of the Slack interactions and conversation. 
 
-* [functions](./scripts/functions.js) contains the logic that interaccts with Airtable and refactorable code used by airtable-log. It also contains the logic that interacts with the Crunchbase Scraper by spawning a Python script
+* [functions](./scripts/functions.js) contains the logic that interacts with Airtable and refactorable code used by airtable-log. It also contains the logic that interacts with the Crunchbase Scraper by spawning a Python script
 
 To add any dependencies, use an npm install before pushing to Heroku
 
