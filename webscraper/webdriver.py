@@ -51,7 +51,7 @@ try:
         # no bot detection
         print(e)
         woo = 'woo'
-    time.sleep(4)
+    time.sleep(6)
 
     try:
         notfound = driver.find_elements_by_xpath("//mat-toolbar[@class='mat-elevation-z5 layout-row mat-toolbar has-accent mat-toolbar-single-row']")
