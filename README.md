@@ -1,8 +1,8 @@
 # Rooty
 Rooty is a chatbot built with [hubot](https://hubot.github.com/) and [hubot-conversation](https://www.npmjs.com/package/hubot-conversation). rooty-bot utilizes the Slack Web API, Airtable API, and various npm packages to enter company data from Slack to Airtable. The bot also has a python script to scrape crunchbase using Selenium/Chromedriver. rooty-bot is deployed via [Heroku](https://dashboard.heroku.com/apps/rooty-bot/logs).
 
-##Slackbot Features
-[airtable-log](./scripts/airtable-log) contains the code that governs rooty's responses and actions when you message keyworkds in slack. The following are the options:
+## Slackbot Features
+[airtable-log](./scripts/airtable-log.py) contains the code that governs rooty's responses and actions when you message keyworkds in slack. The following are the options:
 
 * help
 	* Lists features
@@ -26,12 +26,12 @@ Rooty is a chatbot built with [hubot](https://hubot.github.com/) and [hubot-conv
 * Thank you
 	* Rooty will let you know that you are welcome
 
-##Code
+## Code
 In this repository, there are numerous files, dependencies, and scripts. 
-###Javascript (Chatbot)
-The [scripts](./scripts) folder contains the javascript that is run when the bot is deployed. In the [scripts](./scripts) folder there is [functions](./scripts/functions.js) and [airtable-log](./scripts/airtable-log). 
+### Javascript (Chatbot)
+The [scripts](./scripts) folder contains the javascript that is run when the bot is deployed. In the [scripts](./scripts) folder there is [functions](./scripts/functions.js) and [airtable-log](./scripts/airtable-log.js). 
 
-* [airtable-log](./scripts/airtable-log) contains all of the Slack interactions and conversation. 
+* [airtable-log](./scripts/airtable-log.js) contains all of the Slack interactions and conversation. 
 
 * [functions](./scripts/functions.js) contains the logic that interaccts with Airtable and refactorable code used by airtable-log. It also contains the logic that interacts with the Crunchbase Scraper by spawning a Python script
 
@@ -39,7 +39,7 @@ To add any dependencies, use an npm install before pushing to Heroku
 
 ### Python (Selenium Crunchbase Scraper)
 
-The [webscraper](./webscraper) folder contains the script that creates a Webcrawler and navigates to the webpage. When it is passed an argument "company", it returns a JSON with the info it found at www.crunchbase.com/company. It will manage to get past the Crunchbase basic bot detection by finding the recaptcha element and clicking it.
+The [webscraper](./webscraper.py) folder contains the script that creates a Webcrawler and navigates to the webpage. When it is passed an argument "company", it returns a JSON with the info it found at www.crunchbase.com/company. It will manage to get past the Crunchbase basic bot detection by finding the recaptcha element and clicking it.
 
 To add any python packages, add them to [requirements.txt](./requirements.txt)
 
