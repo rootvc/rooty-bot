@@ -53,7 +53,6 @@ module.exports = function (robot) {
       company = functions.getCompanyNameFromMsg(msg);
       functions.whoisCrunchbaseOneCompany(company).then(function (result){
         for( let i in result ){
-
           msg.reply(result[i]);
         }
       });
@@ -161,6 +160,7 @@ module.exports = function (robot) {
                     if ((founders) == ("e") || (founders) == ("x") || (founders) == ("E") || (founders) == ("X") || (founders.substring(0,3) === 'log')){
                         msg.reply("Exited logging for " + company);
                         founders = "";
+                        functions.updateCrunchbaseOneCompany(companyUID);
                         functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                 contact, notes, source, link);
                         return;

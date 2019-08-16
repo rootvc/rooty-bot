@@ -44,14 +44,14 @@ try:
     try:
         el = driver.find_element_by_id('px-captcha')
         action = webdriver.common.action_chains.ActionChains(driver)
-        action.move_to_element_with_offset(el, 30, 30)
+        action.move_to_element_with_offset(el,0,0)
         action.click_and_hold()
         action.perform()
     except Exception as e:
         # no bot detection
         print(e)
         woo = 'woo'
-    time.sleep(3)
+    time.sleep(4)
 
     try:
         notfound = driver.find_elements_by_xpath("//mat-toolbar[@class='mat-elevation-z5 layout-row mat-toolbar has-accent mat-toolbar-single-row']")
