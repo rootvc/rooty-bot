@@ -40,7 +40,7 @@ module.exports = function (robot) {
 
     robot.respond(/help/i, function (msg){
         msg.reply("Hi - my name is rooty and I'm a bot configured to help you interface with the Deal Pipeline  \n" +
-                "I can be found at https://github.com/rootvc/rooty-bot/blob/master/scripts/airtable-log.js \n" +
+                "I can be found at https://github.com/rootvc/rooty-bot/ \n" +
                 "Here are some of my features:  \n" +
                 'log X \n This logs X as a company in the Airtable'
                    + '\n\t The followup questions will let you enter details about the company, founders, notes, attach a pitch deck, etc.'

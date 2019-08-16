@@ -4,6 +4,8 @@ Rooty is a chatbot built with [hubot](https://hubot.github.com/) and [hubot-conv
 ##Slackbot Features
 [airtable-log](./scripts/airtable-log) contains the code that governs rooty's responses and actions when you message keyworkds in slack. The following are the options:
 
+* help
+	* Lists features
 * log X
 	* This logs X as a company in the Airtable
 	* The followup questions will let you enter details about the company, founders, notes, attach a pitch deck, etc.
@@ -40,6 +42,5 @@ To add any dependencies, use an npm install before pushing to Heroku
 The [webscraper](./webscraper) folder contains the script that creates a Webcrawler and navigates to the webpage. When it is passed an argument "company", it returns a JSON with the info it found at www.crunchbase.com/company. It will manage to get past the Crunchbase basic bot detection by finding the recaptcha element and clicking it.
 
 To add any python packages, add them to [requirements.txt](./requirements.txt)
-### Commands sent to Heroku
 
 
