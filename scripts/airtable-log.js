@@ -138,7 +138,7 @@ module.exports = function (robot) {
                     functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                           contact, notes, source, link);
                     message.reply("Timed out. No need to enter any more data.");
-                    functions.updateCrunchbaseOneCompany(companyUID);
+                  //  functions.updateCrunchbaseOneCompany(companyUID);
                   }
 
                 //const spawn = require("child_process").spawn;
@@ -176,7 +176,7 @@ module.exports = function (robot) {
                     if ((founders) == ("e") || (founders) == ("x") || (founders) == ("E") || (founders) == ("X") || (founders.substring(0,3) === 'log')){
                         msg.reply("Exited logging for " + company);
                         founders = "";
-                        functions.updateCrunchbaseOneCompany(companyUID);
+                        //functions.updateCrunchbaseOneCompany(companyUID);
                         functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                 contact, notes, source, link);
                         return;
@@ -211,7 +211,7 @@ module.exports = function (robot) {
                   //read in line of input
                   dialog.addChoice(/.*/i, function (msg3) {
                       notes = functions.getStringFromMsg(msg3);
-                      functions.updateCrunchbaseOneCompany(companyUID);
+                      //functions.updateCrunchbaseOneCompany(companyUID);
 
                       //exit and skip options
                       if ((notes) == ("e") || (notes) == ("x") || (notes) == ("E") || (notes) == ("X") || (notes.substring(0,3) === 'log')) {
