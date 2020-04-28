@@ -29,13 +29,6 @@ module.exports = function (robot) {
         msg.send(msg.random(functions.response));
     });
 
-    //calls the function which updates every company that has the box "Needs crunchbase Scraping " checked in airtable
-    robot.respond(/updateairtable/i, function (msg){
-        functions.updateCrunchbase();
-    });
-
-
-
     robot.hear(functions.thanks, msg => msg.send(msg.random(functions.response)));
 
     robot.respond(/help/i, function (msg){
@@ -44,36 +37,18 @@ module.exports = function (robot) {
                 "Here are some of my features:  \n" +
                 'log X \n This logs X as a company in the Airtable'
                    + '\n\t The followup questions will let you enter details about the company, founders, notes, attach a pitch deck, etc.'
-                   + '\n \tIt also automatically will fill in info about the company\'s raises, location, website, description, etc. from Crunchbase if it can be found'
                    + '\n \tAssigns an owner as the Airtable user who has the email as the person who sent the Slack msg (Kane by default)'
                    + '\n\tAt any point, \"e\" exits logging and \"s\" skips an option'
                    + '\n\tWill parse multiple founders separated by \"and\", \",\" or \"&\"'
                    + '\n\tPitch deck uploads are tricky - it will download and upload to Airtable but because of Airtable\'s preview feature pulling from the link and not the download it will not let you preview in Airtable - you have to download the attachment from Airtable to view it (by clicking on the link after previewing).'
                    + '\n check X'
                    + '\n\tChecks if a company is already in the Airtable and tell you'
-                   + '\n whois X'
-                   + '\n\t Returns info pulled from Crunchbase about company X'
                    + '\nsearch X'
                    + '\n\tReturns all companies that contain string X from the Airtable'
-                   + '\nupdateairtable'
-                   + '\n\tUpdates info in Airtable pulling data from Crunchbase for all the companies that have the \"Needs Crunchbase Scraping\" box checked in Airtable (do this manually whenever you want updates)'
-                   + '\n\tDo not do more than 100 companies at a time or you run the risk of crashing the bot in Heroku'
                    + '\nThank you'
                    + '\n\tRooty will let you know that you are welcome' +
                "\nThese are some other things I can do:");
     });
-
-
-    //
-    robot.respond(/whois (.*)/i, function(msg){
-      company = functions.getCompanyNameFromMsg(msg);
-      functions.whoisCrunchbaseOneCompany(company).then(function (result){
-        for( let i in result ){
-          msg.reply(result[i]);
-        }
-      });
-    });
-
 
     // Triggered when rooty check _
     //used to check if a company exists in airtable without wanting to log it
@@ -138,28 +113,7 @@ module.exports = function (robot) {
                     functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                           contact, notes, source, link);
                     message.reply("Timed out. No need to enter any more data.");
-                  //  functions.updateCrunchbaseOneCompany(companyUID);
                   }
-
-                //const spawn = require("child_process").spawn;
-                // var pythonProcess = spawn('python',["./webscraper/webdriver.py", company]);
-                var crunchbaseSuccess = true;
-                var crunchbaseData = '';
-              /*  pythonProcess.stdout.on('data', (data) => {
-                    if (data.toString() === 'Wrong\n'){
-                        crunchbaseSuccess = false;
-                        return;
-                    }
-                    crunchbaseData = data.toString();
-                    const dataArr = data.toString().split(/\r?\n/);
-                    amount_raised = dataArr[0];
-                    notes = dataArr[1];
-                    location = dataArr[2];
-                    founders = dataArr[3];
-                    website = dataArr[4];
-                });
-
-                pythonProcess.on('exit', function(){*/
 
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
@@ -176,7 +130,6 @@ module.exports = function (robot) {
                     if ((founders) == ("e") || (founders) == ("x") || (founders) == ("E") || (founders) == ("X") || (founders.substring(0,3) === 'log')){
                         msg.reply("Exited logging for " + company);
                         founders = "";
-                        //functions.updateCrunchbaseOneCompany(companyUID);
                         functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                 contact, notes, source, link);
                         return;
@@ -211,7 +164,6 @@ module.exports = function (robot) {
                   //read in line of input
                   dialog.addChoice(/.*/i, function (msg3) {
                       notes = functions.getStringFromMsg(msg3);
-                      //functions.updateCrunchbaseOneCompany(companyUID);
 
                       //exit and skip options
                       if ((notes) == ("e") || (notes) == ("x") || (notes) == ("E") || (notes) == ("X") || (notes.substring(0,3) === 'log')) {
@@ -245,7 +197,7 @@ module.exports = function (robot) {
                       }
 
                   //prompt user to enter a pitch deck
-                  msg.reply("Attach a pitch deck! :books:");
+                  msg.reply("Attach a pitch deck! :books: ([e] to exit)");
                   //grabs next line of input
                   dialog.addChoice(/.*/i, function (msg5) {
                       var pitchdeck = functions.getStringFromMsg(msg5);
