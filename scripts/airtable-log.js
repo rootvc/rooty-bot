@@ -118,7 +118,7 @@ module.exports = function (robot) {
                 // Responds to user and prompts them to enter founder names
                 msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
 
-                msg.reply(":person_with_blond_hair: What are the founders names? :man-girl-boy:");
+                msg.reply(":envelope: What are the founders' email addresses? (Clearbit will fill in the rest of their info.) :mailbox-with-mail:");
 
 
                 //reads the next line of input from the user
@@ -148,11 +148,11 @@ module.exports = function (robot) {
                         founders = functions.replaceAll(founders, ", ", ",");
                         founders = founders.replace(/[,]+/g, ",").trim();
 
-                        //list of founder names
-                        var founderNames = founders.split(",");
+                        //list of founder emails
+                        var founderEmails = founders.split(",");
 
                         //calls function that posts the founders to Airtable and then links their records to the Deal record
-                        functions.postFounderstoAirtable(founderNames).then(function (result){
+                        functions.postFounderstoAirtable(founderEmails).then(function (result){
                             founderRecords = functions.getFounderRecords();
                             functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                                                   contact, notes, source, link);
