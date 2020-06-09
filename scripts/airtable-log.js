@@ -103,10 +103,12 @@ module.exports = function(robot) {
 
           //create a Lead in Deal pipeline associated with the company
           functions.putDeal(companyUID, contact).then(function(record) {
+          	// log the deal
             dealRecord = record.getId();
+            msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
 
             //start the dialog that speaks to the user
-            var dialog = switchBoard.startDialog(msg, 200000);
+            var dialog = switchBoard.startDialog(msg, 120000);
             dialog.dialogTimeout = function(message) {
               functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
                 contact, notes, source, link);
@@ -114,7 +116,6 @@ module.exports = function(robot) {
             }
 
             // Responds to user and prompts them to enter founder names
-            msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
             msg.reply(":envelope: What are the founders' email addresses? (Clearbit will fill in the rest of their info.) :mailbox-with-mail:");
 
             //reads the next line of input from the user
