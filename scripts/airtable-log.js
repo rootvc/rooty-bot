@@ -100,7 +100,6 @@ module.exports = function(robot) {
         //Create company record for the logged company
         functions.putCompany(company).then(function(record) {
           companyUID = record.getId();
-          msg.reply(companyUID); // diag
 
           //create a Lead in Deal pipeline associated with the company
           functions.putDeal(companyUID, contact, status).then(function(record) {
