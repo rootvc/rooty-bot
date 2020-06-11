@@ -29,6 +29,10 @@ const response = [
     ];
 const thanks = new RegExp("thank(s| you) rooty", "i");
 
+const defaultContact = [{
+  "email": "kane@root.vc"
+}];
+
 //replaceAll function for strings
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
@@ -137,19 +141,21 @@ function getStringFromMsg(msg){
 
 //enters a Deal record into airtable
 //returns a Promise containing the record
-function putDeal(companyUID = "", contact = "kane@root.vc", status = "Lead"){
-    return base('Deal Pipeline').create({
-        "Status": status,
-        "Company": [
-           companyUID
-        ],
-        "Owner": contact
-      });
+function putDeal(companyUID = "", contact = defaultContact, status = "Lead"){
+  return base('Deal Pipeline').create([{
+    "fields": {
+      "Status": status,
+      "Company": [
+          companyUID
+      ],
+      "Owner": contact
+    }
+  }]);
 }
 
 //updates a Deal record into airtable
 //returns a Promise containing the record
-function updateDeal(dealRecord = "", companyUID = "", contact = "kane@root.vc",
+function updateDeal(dealRecord = "", companyUID = "", contact = defaultContact,
                     notes = "", source = "", pitchdeck = "", status = "Lead"){
   return base('Deal Pipeline').replace(dealRecord, {
       "Status": "Lead",
