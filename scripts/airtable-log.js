@@ -100,9 +100,10 @@ module.exports = function(robot) {
         //Create company record for the logged company
         functions.putCompany(company).then(function(record) {
           companyUID = record.getId();
+          msg.reply(companyUID); // diag
 
           //create a Lead in Deal pipeline associated with the company
-          functions.putDeal(companyUID, contact).then(function(record) {
+          functions.putDeal(companyUID, contact, status).then(function(record) {
           	// log the deal
             dealRecord = record.getId();
             msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
