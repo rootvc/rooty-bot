@@ -2,6 +2,7 @@ const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
 const AIRTABLE_BASE_KEY = process.env.AIRTABLE_BASE_KEY;
 const token = process.env.token;
 
+
 var Conversation = require('hubot-conversation');
 const {promisify} = require("es6-promisify");
 const events = require('events');
@@ -80,14 +81,18 @@ module.exports = function(robot) {
     var website = "";
     var amount_raised = "";
     var location = "";
+
     //Figure out who sent the message to make the owner field in airtable
     //by default it is kane
     company = functions.getCompanyNameFromMsg(msg);
-    var owner = "kane@root.vc"
-    owner = msg.envelope.user.email_address;
-    var contact = [{
-      "email": owner
-    }];
+    ownerEmail = msg.envelope.user.email_address;
+
+    // MAKE THIS LOOK UP THE CORRECT OWNER
+    var owner = {
+        "id": "usr1CbUdPU3ktnUa1",
+        "email": "chrissy@root.vc", // ownerEmail
+        "name": "Chrissy Meyer"
+    };
 
     functions.checkCompanyInAirtable(company).then(function(response) {
 
@@ -99,23 +104,24 @@ module.exports = function(robot) {
       else {
         //Create company record for the logged company
         functions.putCompany(company).then(function(record) {
+
           companyUID = record.getId();
 
           //create a Lead in Deal pipeline associated with the company
-          functions.putDeal(companyUID, contact).then(function(record) {
-          	// log the deal
-            dealRecord = record.getId();
-            msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
+          functions.putDeal(companyUID, owner).then(function(record) {
+            dealRecord = record.id; // I have no idea why this one isn't a function
 
             //start the dialog that speaks to the user
             var dialog = switchBoard.startDialog(msg, 120000);
             dialog.dialogTimeout = function(message) {
               functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                contact, notes, source, link);
+                owner, notes, source, link);
               message.reply("Timed out. No need to enter any more data.");
             }
 
             // Responds to user and prompts them to enter founder names
+            msg.reply(company + " has been logged in Deal Pipeline: https://airtable.com/tblG2NT0VOUczATZD/viwbOGAcQtroBKPX1.");
+
             msg.reply(":envelope: What are the founders' email addresses? (Clearbit will fill in the rest of their info.) :mailbox-with-mail:");
 
             //reads the next line of input from the user
@@ -126,16 +132,12 @@ module.exports = function(robot) {
               //exit and skip options
               if ((founders) == ("e") || (founders) == ("x") || (founders) == ("E") || (founders) == ("X") || (founders.substring(0, 3) === 'log')) {
                 msg.reply("Exited logging for " + company);
-                founders = "";
-                functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                  contact, notes, source, link);
                 return;
               }
-              if ((founders) == ("s")) {
+              else if ((founders) == ("s")) {
                 msg.reply("Skipped logging founder info.");
                 founders = "";
               }
-
               //not skipped so we enter founders
               else {
                 //parses the input to separate by commas and " and"'s
@@ -146,28 +148,33 @@ module.exports = function(robot) {
                 founders = founders.replace(/[,]+/g, ",").trim();
 
                 //list of founder emails
-                var founderEmails = founders.split(",");
+                var founders = founders.split(",");
 
                 //calls function that posts the founders to Airtable and then links their records to the Deal record
-                functions.postFounderstoAirtable(founderEmails).then(function(result) {
+                functions.postFounderstoAirtable(founders).then(function(result) {
                   founderRecords = functions.getFounderRecords();
                   functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                    contact, notes, source, link);
+                    owner, notes, source, link);
                 });
               }
 
+              msg.reply("Done logging for " + company + "!");
+              return;
+
+              
+              /*
+
+              console.log(dealRecord); // THis is undefined here and that's a problem
               // prompt user for notes
               msg.reply(":spiral_note_pad: Any notes on the company? :spiral_note_pad:");
+
               //read in line of input
-              dialog.addChoice(/.*/i, function(msg3) {
+              dialog.addChoice(/.* /i, function(msg3) {
                 notes = functions.getStringFromMsg(msg3);
 
                 //exit and skip options
                 if ((notes) == ("e") || (notes) == ("x") || (notes) == ("E") || (notes) == ("X") || (notes.substring(0, 3) === 'log')) {
                   msg.reply("Exited logging for " + company);
-                  notes = "";
-                  functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                    contact, notes, source, link);
                   return;
                 }
                 if ((notes) == ("s")) {
@@ -175,17 +182,17 @@ module.exports = function(robot) {
                   notes = "";
                 }
 
+                functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
+                      owner, notes, source, link);
+
                 //prompt user to enter source
                 msg.reply("What's your source? :kissing_heart:");
-                dialog.addChoice(/.*/i, function(msg4) {
+                dialog.addChoice(/.* /i, function(msg4) {
                   source = functions.getStringFromMsg(msg4);
 
                   //exit and skip options
                   if ((source) == ("e") || (source) == ("e") || (source) == ("E") || (source) == ("X") || (source.substring(0, 3) === 'log')) {
                     msg.reply("Exited logging for " + company);
-                    source = "";
-                    functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                      contact, notes, source, link);
                     return;
                   }
                   if ((source) == ("s")) {
@@ -193,10 +200,13 @@ module.exports = function(robot) {
                     source = "";
                   }
 
+                  functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
+                      owner, notes, source, link);
+
                   //prompt user to enter a pitch deck
                   msg.reply("Attach a pitch deck! :books: ([e] to exit)");
                   //grabs next line of input
-                  dialog.addChoice(/.*/i, function(msg5) {
+                  dialog.addChoice(/.* /i, function(msg5) {
                     var pitchdeck = functions.getStringFromMsg(msg5);
 
 
@@ -204,13 +214,13 @@ module.exports = function(robot) {
                     if ((pitchdeck) == ("e") || (pitchdeck) == ("x") || (pitchdeck) == ("E") || (pitchdeck) == ("X") || (pitchdeck.substring(0, 3) === 'log')) {
                       msg.reply("Done logging for " + company + "!");
                       functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                        contact, notes, source, link);
+                        owner, notes, source, link);
                       return;
                     }
                     if (pitchdeck == ("s")) {
                       msg.reply("Done logging for " + company + "!");
                       functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                        contact, notes, source, link);
+                        owner, notes, source, link);
                       return;
                     }
 
@@ -236,7 +246,7 @@ module.exports = function(robot) {
                             const dom = new JSDOM(rawHtml);
                             link = dom.window.document.querySelector("a").href;
 
-                            functions.updateDeal(dealRecord, companyUID, contact, notes, source, link).then(function(record) {
+                            functions.updateDeal(dealRecord, companyUID, owner, notes, source, link).then(function(record) {
                               (async () => {
                                 //revoke public access to the attachement url now that it has been posted to airtable
                                 makePrivate = await (web.files.revokePublicURL({
@@ -251,15 +261,19 @@ module.exports = function(robot) {
                     //update airtable with final inputs and tell user finished
                     else {
                       functions.updateAirtable(dealRecord, companyUID, company, founderRecords,
-                        contact, notes, source, link);
+                        owner, notes, source, link);
                     }
                     msg.reply("Done logging for " + company + "!");
-                  });
-                });
-              });
-            });
-          });
-        });
+                  }).catch(() => {});;
+                }).catch(() => {});;
+              }).catch(() => {});
+              
+              */
+
+
+            }).catch(() => {});
+          }).catch(() => {});
+        }).catch(() => {});
       } // closes the else statement that logs the company
     });
   });
