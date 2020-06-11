@@ -84,7 +84,6 @@ module.exports = function(robot) {
     var founderRecords = [];
     var notes = "";
     var source = "";
-    var link = "";
     var founders = "";
     var website = "";
     var amount_raised = "";
@@ -122,12 +121,10 @@ module.exports = function(robot) {
             message.reply("Timed out. No need to enter any more data.");
           }
 
+          //reads the next line of input from the user for founder emails
           msg.reply(":envelope: What are the founders' email addresses? (Clearbit will fill in the rest of their info.) :mailbox-with-mail:");
 
-          //reads the next line of input from the user
           dialog.addChoice(/.*/i, function(msg2) {
-
-            console.log("hello");
 
             var founders = functions.getStringFromMsg(msg2);
 
@@ -148,14 +145,59 @@ module.exports = function(robot) {
               functions.postFounderstoAirtable(founders).then(function(result) {
                 founderRecords = functions.getFounderRecords();
                 functions.updateAirtable(companyUID, company, founderRecords,
-                  owner, notes, source, link);
+                  owner, notes, source);
               });
             }
 
-            msg.reply("Done logging for " + company + "!");
-            return;
+            // reads the next line of input from the user for notes
+            msg.reply("Enter some notes on the company:");
+            dialog.addChoice(/.*/i, function(msg3) {
 
-          }).catch(() => {});
+              var notes = functions.getStringFromMsg(msg3);
+
+              //exit and skip options
+              if ((notes) == ("e") || (notes) == ("x") || (notes) == ("E") || (notes) == ("X") || (notes.substring(0, 3) === 'log')) {
+                msg.reply("Exited logging for " + company);
+                return;
+              } else if ((notes) == ("s")) {
+                msg.reply("Skipped logging notes info.");
+              }
+
+              //not skipped so we enter notes
+              else {
+                functions.updateAirtable(companyUID, company, founderRecords,
+                    owner, notes, source);
+              }
+
+              // reads the next line of input from the user for source (not sure why this has to be nested)
+              msg.reply("What's your source?");
+              dialog.addChoice(/.*/i, function(msg4) {
+
+                var source = functions.getStringFromMsg(msg4);
+
+                //exit and skip options
+                if ((source) == ("e") || (source) == ("x") || (source) == ("E") || (source) == ("X") || (source.substring(0, 3) === 'log')) {
+                  msg.reply("Exited logging for " + company);
+                  return;
+                } else if ((source) == ("s")) {
+                  msg.reply("Skipped logging source info.");
+                }
+
+                //not skipped so we enter notes
+                else {
+                  functions.updateAirtable(companyUID, company, founderRecords,
+                      owner, notes, source);
+                }
+
+                msg.reply("Done logging for " + company + "!");
+                return;            
+
+              });  
+
+            });
+
+          });
+
         }).catch(() => {});
       } // closes the else statement that logs the company
     });

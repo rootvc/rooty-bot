@@ -166,12 +166,14 @@ function parseFounderEmails(founders){
 
 //Updates both the Company record and the Deal record in airtable
 function updateAirtable(companyUID, company, founderRecords,
-  owner, notes, source, link) {
+  owner, notes, source) {
   base('Companies').update(companyUID, {
       "Company Name": company,
       "Tags": [
         "Pipeline"
       ],
+      "Notes": notes,
+      "Source": source,
       "Founders": founderRecords
     },
     function(err, record) {
