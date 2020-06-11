@@ -140,53 +140,32 @@ function getStringFromMsg(msg) {
   return string;
 }
 
-//enters a Deal record into airtable
-//returns a Promise containing the record
-function putDeal(companyUID, owner) {
-  return base('Deal Pipeline').create([{
-    "fields": {
-      "Status": "Lead",
-      "Company": [
-        companyUID
-      ],
-      "Owner": owner
-    }
-  }]);
-}
-
-//updates a Deal record into airtable
-//returns a Promise containing the record
-function updateDeal(dealRecord = "", companyUID = "", contact = defaultContact,
-  notes = "", source = "", pitchdeck = "", status = "Lead") {
-  return base('Deal Pipeline').replace(dealRecord, {
-    "Status": "Lead",
-    "Company": [
-      companyUID
-    ],
-    "Notes": notes,
-    "Owner": contact,
-    "Source": source,
-    "Pitch Deck": [{
-      "url": pitchdeck
-    }]
-  });
-
-}
-
-
 //enters a Company record into airtable
 //returns a Promise containing the record
-function putCompany(company = "") {
+function putCompany(company = "",owner) {
   return base('Companies').create({
     "Company Name": company,
+    "Owner": owner,
+    "Status": "Lead",
     "Tags": [
       "Pipeline"
     ]
   });
 }
 
+//parses founder emails and returns a list of them
+function parseFounderEmails(founders){
+  founders = founders.split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+  founders = replaceAll(founders, " And ", ", ");
+  founders = replaceAll(founders, " &", ",");
+  founders = replaceAll(founders, ", ", ",");
+  founders = founders.replace(/[,]+/g, ",").trim();
+  founders = founders.split(",");
+  return founders;
+}
+
 //Updates both the Company record and the Deal record in airtable
-function updateAirtable(dealRecord, companyUID, company, founderRecords,
+function updateAirtable(companyUID, company, founderRecords,
   owner, notes, source, link) {
   base('Companies').update(companyUID, {
       "Company Name": company,
@@ -200,21 +179,6 @@ function updateAirtable(dealRecord, companyUID, company, founderRecords,
         console.error(err);
         return;
       }
-
-      // update the deal to link the company again now that we have called replace function on the company in airtable
-      // else it will unlink
-      base('Deal Pipeline').update(dealRecord, {
-        "Status": "Lead",
-        "Company": [
-          companyUID
-        ],
-        "Notes": notes,
-        "Owner": owner,
-        "Source": source,
-        "Pitch Deck": [{
-          "url": link
-        }]
-      });
     });
 }
 
@@ -222,8 +186,7 @@ module.exports.getStringFromMsg = getStringFromMsg;
 module.exports.updateAirtable = updateAirtable;
 module.exports.getFounderRecords = getFounderRecords;
 module.exports.putCompany = putCompany;
-module.exports.updateDeal = updateDeal;
-module.exports.putDeal = putDeal;
+module.exports.parseFounderEmails = parseFounderEmails;
 module.exports.getCompanyNameFromMsg = getCompanyNameFromMsg;
 module.exports.searchCompanyInAirtable = searchCompanyInAirtable;
 module.exports.checkCompanyInAirtable = checkCompanyInAirtable;
