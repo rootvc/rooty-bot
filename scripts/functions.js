@@ -142,7 +142,7 @@ function getStringFromMsg(msg){
 //enters a Deal record into airtable
 //returns a Promise containing the record
 function putDeal(companyUID = "", contact = defaultContact, status = "Lead"){
-  msg.reply("putDeal(): "companyUID);
+  msg.reply("putDeal(): " + companyUID);
   return base('Deal Pipeline').create([{
     "fields": {
       "Status": status,
