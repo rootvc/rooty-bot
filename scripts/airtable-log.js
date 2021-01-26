@@ -93,6 +93,9 @@ module.exports = function(robot) {
     //by default it is kane
     company = functions.getCompanyNameFromMsg(msg);
     ownerEmail = msg.envelope.user.email_address;
+    
+    var CircularJSON = require('circular-json');
+  	msg.reply(CircularJSON.stringify(msg));
 
     // MAKE THIS LOOK UP THE CORRECT OWNER
     var owner = {
