@@ -95,13 +95,14 @@ module.exports = function(robot) {
     ownerEmail = msg.envelope.user.email_address;
     
     var CircularJSON = require('circular-json');
+    msg.reply(msg.envelope.email_address);
   	msg.reply(CircularJSON.stringify(msg.envelope));
 
     // MAKE THIS LOOK UP THE CORRECT OWNER
     var owner = {
-      "id": "usr1CbUdPU3ktnUa1",
-      "email": "chrissy@root.vc", // ownerEmail
-      "name": "Chrissy Meyer"
+      "id": "",
+      "email": msg.envelope.email_address, // ownerEmail
+      "name": ""
     };
 
     functions.checkCompanyInAirtable(company).then(function(response) {
