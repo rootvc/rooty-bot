@@ -90,9 +90,14 @@ module.exports = function(robot) {
     var location = "";
 
     //Figure out who sent the message to make the owner field in airtable
-    //by default it is kane
+    //by default it is 
+    //https://airtable.com/developers/scripting/api/collaborator
     company = functions.getCompanyNameFromMsg(msg);
     ownerEmail = msg.envelope.user.email_address;
+
+    owner = base.getCollaborator(ownerEmail);
+    ownerID = owner.id;
+    ownerName = owner.name;
     
     var CircularJSON = require('circular-json');
     msg.reply(ownerEmail);
@@ -100,9 +105,9 @@ module.exports = function(robot) {
 
     // MAKE THIS LOOK UP THE CORRECT OWNER
     var owner = {
-      "id": "",
-      "email": ownerEmail, // ownerEmail
-      "name": ""
+      "id": ownerID,
+      "email": ownerEmail,
+      "name": ownerName
     };
 
     functions.checkCompanyInAirtable(company).then(function(response) {
