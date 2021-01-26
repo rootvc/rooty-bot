@@ -6,6 +6,7 @@
   "description": "Helps with Root tasks",
   "dependencies": {
     "circular-json": "0.5.9",
+    "dotenv": "8.2.0",
     "@slack/events-api": "^2.3.3",
     "@slack/web-api": "^5.0.1",
     "JSON": "^1.0.0",
