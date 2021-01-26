@@ -95,7 +95,7 @@ module.exports = function(robot) {
     ownerEmail = msg.envelope.user.email_address;
     
     var CircularJSON = require('circular-json');
-  	msg.reply(CircularJSON.stringify(msg));
+  	msg.reply(CircularJSON.stringify(msg.envelope));
 
     // MAKE THIS LOOK UP THE CORRECT OWNER
     var owner = {
