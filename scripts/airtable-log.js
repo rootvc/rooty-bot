@@ -92,16 +92,16 @@ module.exports = function(robot) {
     //Figure out who sent the message to make the owner field in airtable
     //by default it is kane
     company = functions.getCompanyNameFromMsg(msg);
-    ownerEmail = msg.envelope.user.email_address;
+    ownerEmail = msg.envelope.email_address.toString();
     
     var CircularJSON = require('circular-json');
-    msg.reply(msg.envelope.email_address);
+    msg.reply(ownerEmail);
   	msg.reply(CircularJSON.stringify(msg.envelope));
 
     // MAKE THIS LOOK UP THE CORRECT OWNER
     var owner = {
       "id": "",
-      "email": msg.envelope.email_address, // ownerEmail
+      "email": ownerEmail, // ownerEmail
       "name": ""
     };
 
