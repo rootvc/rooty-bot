@@ -10,7 +10,6 @@ const {
 } = require("es6-promisify");
 const events = require('events');
 const auth = 'Bearer ' + AIRTABLE_API_KEY;
-const companiesURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Companies"
 const dealpipelineURL = "https://api.airtable.com/v0/appOH5wwqL3JpZtSr/Deal%20Pipeline"
 const Airtable = require('airtable');
 const base = new Airtable({
@@ -26,7 +25,6 @@ const {
   JSDOM
 } = jsdom;
 const functions = require('./functions');
-
 
 module.exports = function(robot) {
 
@@ -94,21 +92,13 @@ module.exports = function(robot) {
     //by default it is 
     //https://airtable.com/developers/scripting/api/collaborator
     company = functions.getCompanyNameFromMsg(msg);
-    ownerEmail = msg.envelope.user.email_address;
+    var ownerEmail =  msg.envelope.user.email_address; // this is from slack
 
-    owner = base.getCollaborator(ownerEmail);
-    ownerID = owner.id;
-    ownerName = owner.name;
-    
-    var CircularJSON = require('circular-json');
-    msg.reply(ownerEmail);
-  	msg.reply(CircularJSON.stringify(msg.envelope));
-
-    // MAKE THIS LOOK UP THE CORRECT OWNER
+    // airtable API will match on email
     var owner = {
-      "id": ownerID,
+      //"id": "",
       "email": ownerEmail,
-      "name": ownerName
+      //"name": ""
     };
 
     functions.checkCompanyInAirtable(company).then(function(response) {

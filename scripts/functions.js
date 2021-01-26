@@ -142,7 +142,7 @@ function getStringFromMsg(msg) {
 
 //enters a Company record into airtable
 //returns a Promise containing the record
-function putCompany(company = "",owner) {
+function putCompany(company = "", owner) {
   return base('Companies').create({
     "Company Name": company,
     "Owner": owner,
