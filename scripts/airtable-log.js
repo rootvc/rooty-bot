@@ -105,7 +105,7 @@ module.exports = function(robot) {
 
       //if exists in airtable, do nothing and tell user
       if (response) {
-        msg.reply(company + " already exists in Airtable.");
+        msg.reply(company + " already exists in Airtable");
         msg.reply('https://airtable.com/tblKyMSdDH0tXVV8Z/viwm2ez5rq5s8icSf/' + response.getId());
       } else {
         //Create company record for the logged company
@@ -122,7 +122,7 @@ module.exports = function(robot) {
           }
 
           //reads the next line of input from the user for founder emails
-          msg.reply(":envelope: What are the founders' email addresses? (Clearbit will fill in the rest of their info.) :mailbox-with-mail:");
+          msg.reply("What are the founders' emails, comma separated? (Clearbit will fill in the rest of their info) - [s] to skip [e] to exit");
 
           dialog.addChoice(/.*/i, function(msg2) {
 
@@ -133,7 +133,7 @@ module.exports = function(robot) {
               msg.reply("Exited logging for " + company);
               return;
             } else if ((founders) == ("s")) {
-              msg.reply("Skipped logging founder info.");
+              msg.reply("Skipped logging founder info");
             }
 
             //not skipped so we enter founders
@@ -150,7 +150,7 @@ module.exports = function(robot) {
             }
 
             // reads the next line of input from the user for notes
-            msg.reply("Enter some notes on the company:");
+            msg.reply("Enter some notes on the company - [s] to skip [e] to exit:");
             dialog.addChoice(/.*/i, function(msg3) {
 
               var notes = functions.getStringFromMsg(msg3);
@@ -160,7 +160,7 @@ module.exports = function(robot) {
                 msg.reply("Exited logging for " + company);
                 return;
               } else if ((notes) == ("s")) {
-                msg.reply("Skipped logging notes info.");
+                msg.reply("Skipped logging notes info");
               }
 
               //not skipped so we enter notes
@@ -170,7 +170,7 @@ module.exports = function(robot) {
               }
 
               // reads the next line of input from the user for source (not sure why this has to be nested)
-              msg.reply("What's your source?");
+              msg.reply("What's your source? - [s] to skip [e] to exit");
               dialog.addChoice(/.*/i, function(msg4) {
 
                 var source = functions.getStringFromMsg(msg4);
@@ -180,7 +180,7 @@ module.exports = function(robot) {
                   msg.reply("Exited logging for " + company);
                   return;
                 } else if ((source) == ("s")) {
-                  msg.reply("Skipped logging source info.");
+                  msg.reply("Skipped logging source info");
                 }
 
                 //not skipped so we enter notes
